@@ -4,5 +4,33 @@
   "main": "index.js",
   "license": "MIT",
   "private": true,
-  "dependencies": {}
+  "scripts": {
+    "test": "./bin/test.sh"
+  },
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.6",
+    "@babel/eslint-parser": "^7.11.5",
+    "@babel/polyfill": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
+    "@babel/preset-react": "^7.10.4",
+    "@babel/register": "^7.11.5",
+    "@testing-library/react": "^11.0.4",
+    "@testing-library/react-hooks": "^3.4.2",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "babel-plugin-react-remove-properties": "^0.3.0",
+    "babel-plugin-transform-assets": "^1.0.2",
+    "babel-plugin-transform-require-ignore": "^0.1.1",
+    "enhanced-tape": "^0.2.2",
+    "eslint": "^7.11.0",
+    "eslint-plugin-react": "^7.21.4",
+    "eslint-plugin-react-hooks": "^4.1.2",
+    "jsdom": "^16.4.0",
+    "react-test-renderer": "^16.13.1",
+    "tap-spec-dot": "^0.1.4",
+    "tape": "^5.0.1"
+  }
 }
