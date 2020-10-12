@@ -11,8 +11,7 @@ export default merge(common, {
     ],
 
     splitChunks: {
-      chunks: 'all',
-      name: true
+      chunks: 'all'
     }
   },
 });

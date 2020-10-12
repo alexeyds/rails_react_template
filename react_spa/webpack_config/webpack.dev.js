@@ -8,6 +8,5 @@ export default merge(common, {
       index: publicPath
     }
   },
-  watch: true,
   devtool: false
 });
