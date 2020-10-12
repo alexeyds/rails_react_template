@@ -9,5 +9,10 @@ export default merge(common, {
     minimizer: [
       new TerserPlugin()
     ],
+
+    splitChunks: {
+      chunks: 'all',
+      name: true
+    }
   },
 });

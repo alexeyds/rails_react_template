@@ -19,6 +19,7 @@ export default {
 
   output: {
     publicPath,
+    filename: "[name].[contenthash:8].js",
     path: path.resolve(__dirname, path.join("../../public", publicPath)),
   },
 
