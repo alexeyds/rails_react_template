@@ -2,6 +2,8 @@ import path from "path";
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
+export let publicPath = "/react_spa";
+
 export default {
   stats: {
     children: false
@@ -16,8 +18,8 @@ export default {
   },
 
   output: {
-    publicPath: "/react_spa",
-    path: path.resolve(__dirname, "../../public/react_spa"),
+    publicPath,
+    path: path.resolve(__dirname, path.join("../../public", publicPath)),
   },
 
   plugins: [
@@ -38,3 +40,4 @@ export default {
     ]
   },
 };
+
