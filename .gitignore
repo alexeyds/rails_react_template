@@ -27,4 +27,5 @@
 /config/master.key
 
 /public/react_spa
-!/public/react_spa/.keep
+# Ignore application configuration
+/config/application.yml

@@ -16,7 +16,7 @@ export default {
   },
 
   output: {
-    publicPath: "/",
+    publicPath: "/react_spa",
     path: path.resolve(__dirname, "../../public/react_spa"),
   },
 
