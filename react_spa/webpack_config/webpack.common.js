@@ -3,7 +3,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 
-export let publicPath = "/react_spa";
+export let publicPath = "/react_spa/";
 
 export default {
   stats: {
@@ -20,7 +20,7 @@ export default {
 
   output: {
     publicPath,
-    filename: "[name].[contenthash:8].js",
+    filename: "js/[name].[contenthash:8].js",
     path: path.resolve(__dirname, path.join("../../public", publicPath)),
   },
 
@@ -30,7 +30,7 @@ export default {
       template: 'lib/index.html'
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].[contenthash:8].css'
+      filename: 'styles/[name].[contenthash:8].css'
     }),
   ],
 
@@ -49,6 +49,11 @@ export default {
           sassLoader()
         ],
       },
+
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [imagesLoader()],
+      },
     ]
   },
 };
@@ -62,6 +67,15 @@ function sassLoader() {
       sassOptions: {
         includePaths: ['lib', 'node_modules']
       },
+    },
+  };
+}
+
+function imagesLoader() {
+  return {
+    loader: 'file-loader',    
+    options: {
+      name: 'images/[name].[contenthash:8].[ext]',
     },
   };
 }
