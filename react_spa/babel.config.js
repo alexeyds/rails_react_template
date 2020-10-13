@@ -6,7 +6,7 @@ module.exports = function(api) {
 
   if (isBrowser()) {
     presets.push(envPresetForBrowser());
-    plugins.push(["react-remove-properties", {"properties": ["testid"]}]);
+    plugins.push(["react-remove-properties", {"properties": ["test-id"]}]);
   } else {
     presets.push("@babel/preset-env");
     plugins.push([
