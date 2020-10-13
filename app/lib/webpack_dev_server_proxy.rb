@@ -2,11 +2,7 @@ class WebpackDevServerProxy < Rack::Proxy
   def perform_request(env)
     route_params = recognize_route(Rack::Request.new(env))
 
-    if (react_spa_route?(route_params))
-      super(env)
-    else
-      @app.call(env)
-    end
+    react_spa_route?(route_params) ? super(env) : @app.call(env)
   end
 
   private
