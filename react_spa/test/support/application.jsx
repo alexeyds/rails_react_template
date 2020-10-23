@@ -1,7 +1,7 @@
 import React from "react";
 import RoutesSwitch from "application/routes_switch";
-import TestRouter from "test/support/test_router";
+import ApplicationEnv from "test/support/application_env";
 
-export default function Application({initialPath}) {
-  return <TestRouter initialPath={initialPath}><RoutesSwitch/></TestRouter>;
+export default function Application(props) {
+  return <ApplicationEnv {...props}><RoutesSwitch/></ApplicationEnv>;
 }
