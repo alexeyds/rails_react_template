@@ -1,4 +1,5 @@
 import path from "path";
+import webpack from "webpack";
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { CleanWebpackPlugin } from 'clean-webpack-plugin';
@@ -32,6 +33,7 @@ export default {
     new MiniCssExtractPlugin({
       filename: 'styles/[name].[contenthash:8].css'
     }),
+    new webpack.EnvironmentPlugin(['NODE_ENV', 'BABEL_ENV'])
   ],
 
   module: {
