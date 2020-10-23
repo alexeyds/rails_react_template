@@ -1,6 +1,6 @@
 // https://github.com/airbnb/enzyme/blob/master/docs/guides/jsdom.md
 let { JSDOM } = require('jsdom');
-let jsdom = new JSDOM('<!doctype html><html><body></body></html>', { url: 'https://audit.l-tech.ru' });
+let jsdom = new JSDOM('<!doctype html><html><body></body></html>', { url: 'https://example.com' });
 let { window } = jsdom;
 
 function copyProps(src, target) {
