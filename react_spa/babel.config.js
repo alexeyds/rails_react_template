@@ -31,8 +31,7 @@ function moduleResolverPlugin() {
         "./lib"
       ],
       "alias": {
-        "test": "./test",
-        "config": "./config"
+        "test": "./test"
       }
     }
   ];
