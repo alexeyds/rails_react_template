@@ -1,7 +1,7 @@
 import React from 'react';
-import HomePage from "home_page";
+import Application from "application";
 import { render } from 'react-dom';
 
 document.addEventListener("DOMContentLoaded", function() {
-  render(<HomePage/>, document.getElementById("react-root"));
+  render(<Application/>, document.getElementById("react-root"));
 });
