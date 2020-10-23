@@ -8,7 +8,13 @@ test.beforeEach(() => {
   clearCookies();
 });
 
-test.afterEach(() => {
+test.afterEach((t) => {
+  try {
+    fetch.validateAndResetMocks();
+  } catch(e) {
+    t.fail(e);
+  }
+
   unmountRenderedComponents();
   unmountRenderedHooks();
 });

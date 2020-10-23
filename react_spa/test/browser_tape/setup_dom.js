@@ -1,5 +1,7 @@
 // https://github.com/airbnb/enzyme/blob/master/docs/guides/jsdom.md
-let { JSDOM } = require('jsdom');
+import { JSDOM } from 'jsdom';
+import { buildFetch } from 'fetcherino';
+
 let jsdom = new JSDOM('<!doctype html><html><body></body></html>', { url: 'https://example.com' });
 let { window } = jsdom;
 
@@ -9,6 +11,10 @@ function copyProps(src, target) {
     ...Object.getOwnPropertyDescriptors(target),
   });
 }
+
+let fetch = buildFetch();
+global.fetch = fetch;
+window.fetch = fetch;
 
 global.window = window;
 global.document = window.document;
