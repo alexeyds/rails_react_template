@@ -8,7 +8,7 @@ export default function HomePage() {
     <div className="home-page" test-id="home-page">
       <img test-id="welcome-image" src={logo}/>
       <h1>Hello!</h1>
-      <Link to="/foobar">Foobar</Link>
+      <Link to="/hello_world">Hello World API</Link>
     </div>
   );
 }
