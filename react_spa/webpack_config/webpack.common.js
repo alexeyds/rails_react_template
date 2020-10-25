@@ -27,12 +27,8 @@ export default {
 
   plugins: [
     new CleanWebpackPlugin(),
-    new HtmlWebpackPlugin({
-      template: 'lib/index.html'
-    }),
-    new MiniCssExtractPlugin({
-      filename: 'styles/[name].[contenthash:8].css'
-    }),
+    new HtmlWebpackPlugin({ template: 'lib/index.html' }),
+    new MiniCssExtractPlugin({ filename: 'styles/[name].[contenthash:8].css' }),
     new webpack.EnvironmentPlugin(['NODE_ENV', 'BABEL_ENV'])
   ],
 
