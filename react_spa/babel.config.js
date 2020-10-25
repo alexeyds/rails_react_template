@@ -6,22 +6,19 @@ module.exports = function(api) {
 
   if (isBrowser()) {
     presets.push(envPresetForBrowser());
-    plugins.push(["react-remove-properties", {"properties": ["test-id"]}]);
+    plugins.push(stripTestIdsPlugin());
   } else {
     presets.push("@babel/preset-env");
-    plugins.push([
-      "transform-require-ignore", 
-      {"extensions": [".less", ".sass", "scss"]}
-    ]);
-
-    plugins.push([
-      "transform-assets", 
-      {"extensions": ["svg", "png", "jpg", "jpeg", "gif"], "name": "[name].[ext]"}
-    ]);
+    plugins.push(ignoreStylesPlugin());
+    plugins.push(ignoreImagesPlugin());
   }
 
   return { presets, plugins };
 };
+
+function isBrowser() {
+  return process.env.BABEL_ENV === 'browser';
+}
 
 function moduleResolverPlugin() {
   return [
@@ -48,6 +45,30 @@ function envPresetForBrowser() {
   ];
 }
 
-function isBrowser() {
-  return process.env.BABEL_ENV === 'browser';
+function ignoreStylesPlugin() {
+  return [
+    "transform-require-ignore", 
+    { 
+      "extensions": [".less", ".sass", "scss"] 
+    }
+  ];
+}
+
+function ignoreImagesPlugin() {
+  return [
+    "transform-assets", 
+    { 
+      "extensions": ["svg", "png", "jpg", "jpeg", "gif"],
+      "name": "[name].[ext]"
+    }
+  ];
+}
+
+function stripTestIdsPlugin() {
+  return [
+    "react-remove-properties", 
+    {
+      "properties": ["test-id"]
+    }
+  ];
 }
