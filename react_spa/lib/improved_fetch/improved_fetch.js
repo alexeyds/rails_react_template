@@ -1,24 +1,24 @@
+import { merge } from 'utils/object';
+
 export function fetchJSON(path, init={}) {
   init = maybeStringifyBody(addCredentials(addContentType(init)));
   return fetch(path, init).then(parseJSONResponse);
 }
 
 function addContentType(init) {
-  let headers = init.headers || {};
-  headers = Object.assign({}, headers, { 'Content-Type': 'application/json' });
-
-  return Object.assign({}, init, { headers });
+  let headers = merge(init.headers, { 'Content-Type': 'application/json' });
+  return merge(init, { headers });
 }
 
 function addCredentials(init) {
-  return Object.assign({}, init, { credentials: 'include' });
+  return merge(init, { credentials: 'include' });
 }
 
 function maybeStringifyBody(init) {
   let body = init.body;
 
   if (body) {
-    return Object.assign({}, init, { body: JSON.stringify(body) });
+    return merge(init, { body: JSON.stringify(body) });
   } else {
     return init;
   }
