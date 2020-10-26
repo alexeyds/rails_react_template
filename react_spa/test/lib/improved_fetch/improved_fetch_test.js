@@ -8,7 +8,6 @@ test("improved_fetch", function(t) {
       let response = await fetchJSON('/test');
 
       t.equal(response.status, 200);
-      t.equal(response.parsedBody, '');
     });
 
     t.test("respects existing headers", async function(t) {
@@ -23,9 +22,16 @@ test("improved_fetch", function(t) {
       let response = await fetchJSON('/test');
 
       t.equal(response.status, 200);
-      t.equal(response.ok, true);
       t.same(response.parsedBody, { hi: 'hello' });
-      t.notEqual(response.headers, undefined);
+    });
+
+    t.test("includes response details", async function(t) {
+      fetch.mock('/test');
+      let response = await fetchJSON('/test');
+
+      t.equal(response.status, 200);
+      t.equal(response.ok, true);
+      t.equal(response.parsedBody, '');
     });
 
     t.test("adds credentials: include by default", async function(t) {
