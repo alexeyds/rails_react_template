@@ -17,13 +17,6 @@ test("improved_fetch", function(t) {
       t.equal(response.status, 200);
     });
 
-    t.test("adds credentials: include by default", async function(t) {
-      fetch.mock('/test', { request: { credentials: 'include' } });
-      let response = await fetchJSON('/test');
-
-      t.equal(response.status, 200);
-    });
-
     t.test("stringifies request body", async function(t) {
       fetch.mock('/test', { request: { body: { foo: 'bar' } } });
       let response = await fetchJSON('/test', { body: { foo: 'bar' }, method: 'POST' });

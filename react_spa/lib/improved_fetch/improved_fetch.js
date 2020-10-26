@@ -1,7 +1,7 @@
 import { merge } from 'utils/object';
 
 export function fetchJSON(path, init={}) {
-  init = maybeStringifyBody(addCredentials(addContentType(init)));
+  init = maybeStringifyBody(addContentType(init));
   return fetch(path, init);
 }
 
@@ -14,10 +14,6 @@ export function fetchJSON(path, init={}) {
 function addContentType(init) {
   let headers = merge(init.headers, { 'Content-Type': 'application/json' });
   return merge(init, { headers });
-}
-
-function addCredentials(init) {
-  return merge(init, { credentials: 'include' });
 }
 
 function maybeStringifyBody(init) {
