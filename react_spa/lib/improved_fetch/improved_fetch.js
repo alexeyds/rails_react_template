@@ -5,6 +5,12 @@ export function fetchJSON(path, init={}) {
   return fetch(path, init).then(parseJSONResponse);
 }
 
+['get', 'post', 'patch', 'put', 'delete'].forEach(method => {
+  fetchJSON[method] = function(path, init={}) { 
+    return fetchJSON(path, merge(init, { method: method.toUpperCase() }));
+  };
+});
+
 function addContentType(init) {
   let headers = merge(init.headers, { 'Content-Type': 'application/json' });
   return merge(init, { headers });

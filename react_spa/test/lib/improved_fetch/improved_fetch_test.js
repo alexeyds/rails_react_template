@@ -41,5 +41,12 @@ test("improved_fetch", function(t) {
 
       t.equal(response.status, 200);
     });
+
+    t.test("has shortcuts for common HTTP methods", async function(t) {
+      fetch.mock('/test', { request: { method: "POST", body: {a: 1} } });
+      let response = await fetchJSON.post('/test', { body: { a: 1 } });
+
+      t.equal(response.status, 200);
+    });
   });
 });
