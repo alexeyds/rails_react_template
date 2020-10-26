@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { fetchJSON } from "improved_fetch";
 
 export default function HelloWorldPage() {
   const [responseBody, setResponseBody] = useState(null);
  
   useEffect(() => {
-    fetch('/api/v1/hello_world', { headers: {'Content-Type': 'application/json'} })
-      .then(r => r.json())
-      .then(setResponseBody);
+    fetchJSON('/api/v1/hello_world')
+      .then(r => setResponseBody(r.parsedBody));
   }, [setResponseBody]);
 
   return (
