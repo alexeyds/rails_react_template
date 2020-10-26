@@ -17,23 +17,6 @@ test("improved_fetch", function(t) {
       t.equal(response.status, 200);
     });
 
-    t.test("parses response body right away", async function(t) {
-      fetch.mock('/test', { response: { body: JSON.stringify({ hi: 'hello' }) } });
-      let response = await fetchJSON('/test');
-
-      t.equal(response.status, 200);
-      t.same(response.parsedBody, { hi: 'hello' });
-    });
-
-    t.test("includes response details", async function(t) {
-      fetch.mock('/test');
-      let response = await fetchJSON('/test');
-
-      t.equal(response.status, 200);
-      t.equal(response.ok, true);
-      t.equal(response.parsedBody, '');
-    });
-
     t.test("adds credentials: include by default", async function(t) {
       fetch.mock('/test', { request: { credentials: 'include' } });
       let response = await fetchJSON('/test');

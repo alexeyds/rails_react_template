@@ -6,7 +6,8 @@ export default function HelloWorldPage() {
  
   useEffect(() => {
     fetchJSON('/api/v1/hello_world')
-      .then(r => setResponseBody(r.parsedBody));
+      .then(r => r.json())
+      .then(setResponseBody);
   }, [setResponseBody]);
 
   return (
