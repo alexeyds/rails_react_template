@@ -16,7 +16,6 @@ export default function HelloWorldPage() {
   ); 
 }
 
-
 function ResponseDetails({responseBody}) {
   if (responseBody) {
     return (
