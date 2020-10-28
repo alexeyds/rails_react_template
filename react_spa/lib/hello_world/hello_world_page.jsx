@@ -1,24 +1,27 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import useFetchData from "use_fetch_data";
 import { fetchJSON } from "improved_fetch";
 
 export default function HelloWorldPage() {
-  const [responseBody, setResponseBody] = useState(null);
- 
+  let [userData, userActions] = useFetchData();
+
   useEffect(() => {
-    fetchJSON('/api/v1/hello_world')
-      .then(r => r.json())
-      .then(setResponseBody);
-  }, [setResponseBody]);
+    userActions.handleRequestPromise(fetchJSON('/api/v1/hello_world'), { bodyParser: r => r.json() });
+  }, [userActions]);
 
   return (
     <div style={{textAlign: 'center'}}>
-      <ResponseDetails responseBody={responseBody}/>
+      <ResponseDetails userData={userData}/>
     </div>
   ); 
 }
 
-function ResponseDetails({responseBody}) {
-  if (responseBody) {
+function ResponseDetails({userData}) {
+  if (userData.isLoading) {
+    return <span>Running `GET /api/v1/hello_world`...</span>;
+  } else {
+    let responseBody = userData.parsedBody;
+
     return (
       <div>
         <div>API version: <span test-id='api-version'>{responseBody.api_version}</span></div>
@@ -26,7 +29,5 @@ function ResponseDetails({responseBody}) {
         <div>Details: <span>{responseBody.details}</span></div>
       </div>
     );
-  } else {
-    return <span>Running `GET /api/v1/hello_world`...</span>;
   }
 }
