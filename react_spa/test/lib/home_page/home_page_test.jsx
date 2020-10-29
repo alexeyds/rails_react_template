@@ -8,9 +8,8 @@ test("HomePage", function(t) {
   t.test("welcome image", function(t) {
     t.test("renders image", function(t) {
       let page = render(<ApplicationEnv><HomePage/></ApplicationEnv>);
-      let image = page.getByTestId('welcome-image');
 
-      t.notEqual(image, null);
+      t.notEqual(page.getByTestId('welcome-image'), null);
     });
   });
 });

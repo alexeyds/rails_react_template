@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import useFetchingState from "utils/hooks/use_fetching_state";
-import { fetchJSON } from "improved_fetch";
+import apiRoutes from "api/routes";
+import Request from "api/request";
 
 export default function HelloWorldPage() {
   let [helloWorldState, helloWorldActions] = useFetchingState();
 
   useEffect(() => {
-    helloWorldActions.handleRequestPromise(fetchJSON('/api/v1/hello_world'), { bodyParser: r => r.json() });
+    helloWorldActions.handleRequestPromise(Request.get(apiRoutes.helloWorldPath()), { bodyParser: r => r.json() });
   }, [helloWorldActions]);
 
   return (
