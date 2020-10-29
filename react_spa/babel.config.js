@@ -45,6 +45,15 @@ function envPresetForBrowser() {
   ];
 }
 
+function stripTestIdsPlugin() {
+  return [
+    "react-remove-properties", 
+    {
+      "properties": ["test-id"]
+    }
+  ];
+}
+
 function ignoreStylesPlugin() {
   return [
     "transform-require-ignore", 
@@ -60,15 +69,6 @@ function ignoreImagesPlugin() {
     { 
       "extensions": ["svg", "png", "jpg", "jpeg", "gif"],
       "name": "[name].[ext]"
-    }
-  ];
-}
-
-function stripTestIdsPlugin() {
-  return [
-    "react-remove-properties", 
-    {
-      "properties": ["test-id"]
     }
   ];
 }
