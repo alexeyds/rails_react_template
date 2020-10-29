@@ -1,8 +1,8 @@
 import test from "test/browser_tape";
 import { renderHook, current, cleanup } from "test/support/hooks_renderer";
-import useFetchData from "use_fetch_data";
+import useFetchingState from "utils/hooks/use_fetching_state";
 
-test("useFetchData", function(t) {
+test("useFetchingState", function(t) {
   function actions(hook) {
     let [, actions] = current(hook);
     return actions;
@@ -10,19 +10,19 @@ test("useFetchData", function(t) {
 
   t.test("basicUsage", function(t) {
     t.test("has loading state initially", async function(t) {
-      let hook = renderHook(() => useFetchData());
+      let hook = renderHook(() => useFetchingState());
 
-      let [data] = current(hook);
+      let [state] = current(hook);
 
-      t.equal(data.response, null);
-      t.equal(data.success, false);
-      t.equal(data.isLoading, true);
-      t.equal(data.error, null);
-      t.equal(data.parsedBody, null);
+      t.equal(state.response, null);
+      t.equal(state.success, false);
+      t.equal(state.isLoading, true);
+      t.equal(state.error, null);
+      t.equal(state.parsedBody, null);
     });
 
     t.test("has actions", function(t) {
-      let hook = renderHook(() => useFetchData());
+      let hook = renderHook(() => useFetchingState());
 
       t.notEqual(actions(hook).handleRequestPromise, undefined);
     });
@@ -38,60 +38,60 @@ test("useFetchData", function(t) {
     }
 
     t.test("sets state to loaded", async function(t) {
-      let hook = renderHook(() => useFetchData());
-      let [data] = await handleRequestPromise(hook);
+      let hook = renderHook(() => useFetchingState());
+      let [state] = await handleRequestPromise(hook);
 
-      t.equal(data.response.status, 200);
-      t.equal(data.success, true);
-      t.equal(data.isLoading, false);
-      t.equal(data.error, null);
+      t.equal(state.response.status, 200);
+      t.equal(state.success, true);
+      t.equal(state.isLoading, false);
+      t.equal(state.error, null);
     });
 
     t.test("parses response body as text by default", async function(t) {
-      let hook = renderHook(() => useFetchData());
-      let [data] = await handleRequestPromise(hook, { response: { body: 'hello' } });
+      let hook = renderHook(() => useFetchingState());
+      let [state] = await handleRequestPromise(hook, { response: { body: 'hello' } });
 
-      t.equal(data.parsedBody, 'hello');
+      t.equal(state.parsedBody, 'hello');
     });
 
     t.test("uses {bodyParser}", async function(t) {
-      let hook = renderHook(() => useFetchData());
-      let [data] = await handleRequestPromise(hook, { 
+      let hook = renderHook(() => useFetchingState());
+      let [state] = await handleRequestPromise(hook, { 
         response: { body: JSON.stringify({a: 1}) },
         bodyParser: r => r.json()
       });
 
-      t.same(data.parsedBody, {a: 1});
+      t.same(state.parsedBody, {a: 1});
     });
 
     t.test("handles non-200 responses as errors", async function(t) {
-      let hook = renderHook(() => useFetchData());
-      let [data] = await handleRequestPromise(hook, { response: { status: 404 } });
+      let hook = renderHook(() => useFetchingState());
+      let [state] = await handleRequestPromise(hook, { response: { status: 404 } });
 
-      t.equal(data.response.status, 404);
-      t.equal(data.success, false);
-      t.equal(data.isLoading, false);
-      t.match(data.error.message, /404/);
-      t.equal(data.parsedBody, '');
+      t.equal(state.response.status, 404);
+      t.equal(state.success, false);
+      t.equal(state.isLoading, false);
+      t.match(state.error.message, /404/);
+      t.equal(state.parsedBody, '');
     });
 
     t.test("handles promise rejections as errors", async function(t) {
-      let hook = renderHook(() => useFetchData());
+      let hook = renderHook(() => useFetchingState());
       let error = new Error('foobar');
       actions(hook).handleRequestPromise(Promise.reject(error));
 
       await fetch.nextTick();
-      let [data] = current(hook);
+      let [state] = current(hook);
 
-      t.equal(data.response, null);
-      t.equal(data.success, false);
-      t.equal(data.isLoading, false);
-      t.equal(data.parsedBody, null);
-      t.equal(data.error, error);
+      t.equal(state.response, null);
+      t.equal(state.success, false);
+      t.equal(state.isLoading, false);
+      t.equal(state.parsedBody, null);
+      t.equal(state.error, error);
     });
 
     t.test("actions object stays the same between changes", async function(t) {
-      let hook = renderHook(() => useFetchData());
+      let hook = renderHook(() => useFetchingState());
       let oldActions = actions(hook);
       await handleRequestPromise(hook);
 
@@ -99,7 +99,7 @@ test("useFetchData", function(t) {
     });
 
     t.test("does not display warnings if hook was unmounted during fetch", async function() {
-      let hook = renderHook(() => useFetchData());
+      let hook = renderHook(() => useFetchingState());
       await cleanup();
       await handleRequestPromise(hook);
     });

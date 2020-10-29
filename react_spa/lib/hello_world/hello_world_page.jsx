@@ -1,26 +1,26 @@
 import React, { useEffect } from "react";
-import useFetchData from "use_fetch_data";
+import useFetchingState from "utils/hooks/use_fetching_state";
 import { fetchJSON } from "improved_fetch";
 
 export default function HelloWorldPage() {
-  let [userData, userActions] = useFetchData();
+  let [helloWorldState, helloWorldActions] = useFetchingState();
 
   useEffect(() => {
-    userActions.handleRequestPromise(fetchJSON('/api/v1/hello_world'), { bodyParser: r => r.json() });
-  }, [userActions]);
+    helloWorldActions.handleRequestPromise(fetchJSON('/api/v1/hello_world'), { bodyParser: r => r.json() });
+  }, [helloWorldActions]);
 
   return (
     <div style={{textAlign: 'center'}}>
-      <ResponseDetails userData={userData}/>
+      <ResponseDetails helloWorldState={helloWorldState}/>
     </div>
-  ); 
+  );
 }
 
-function ResponseDetails({userData}) {
-  if (userData.isLoading) {
+function ResponseDetails({helloWorldState}) {
+  if (helloWorldState.isLoading) {
     return <span>Running `GET /api/v1/hello_world`...</span>;
   } else {
-    let responseBody = userData.parsedBody;
+    let responseBody = helloWorldState.parsedBody;
 
     return (
       <div>
