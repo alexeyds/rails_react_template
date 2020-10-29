@@ -1,12 +1,8 @@
-let Response = {};
-
-function parseJSON(response) {
-  return response.text().then(safeParseJSON);
-}
-
-Response.parseJSON = parseJSON;
-
-export default Response;
+export default {
+  parseJSON: (response) => {
+    return response.text().then(safeParseJSON);
+  }
+};
 
 function safeParseJSON(text) {
   try {
