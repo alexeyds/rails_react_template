@@ -1,15 +1,10 @@
 import test from "test/browser_tape";
 import { renderHook, current, cleanup } from "test/support/hooks_renderer";
-import apiClient from "api/api_client";
 import useAPIRequest from "api/use_api_request";
 
 test("useAPIRequest", function(t) {
-  function apiRequest(params) {
-    return apiClient.get('/test-api-request', params);
-  }
-
-  function mockApiRequest(response) {
-    fetch.mock('/test-api-request', { response });
+  function apiRequest() {
+    return Promise.resolve('stub request');
   }
 
   t.test("basicUsage", function(t) {
@@ -30,15 +25,14 @@ test("useAPIRequest", function(t) {
   });
 
   t.test("executeRequest()", function(t) {
-    function getExecuteRequest(hook) {
-      return current(hook)[1];
+    function executeRequest(hook) {
+      return current(hook)[1]();
     }
 
     t.test("executes request and parses it into loaded state", async function(t) {
       let hook = renderHook(() => useAPIRequest(apiRequest));
 
-      mockApiRequest();
-      getExecuteRequest(hook)();
+      executeRequest(hook);
       await global.nextTick();
 
       let [state] = current(hook);
@@ -51,7 +45,7 @@ test("useAPIRequest", function(t) {
       let request = () => Promise.reject(new Error('error!'));
       let hook = renderHook(() => useAPIRequest(request));
 
-      getExecuteRequest(hook)();
+      executeRequest(hook);
       await global.nextTick();
 
       let [state] = current(hook);
@@ -67,9 +61,9 @@ test("useAPIRequest", function(t) {
         return apiRequest();
       };
       let hook = renderHook(() => useAPIRequest(requestFunction));
+      let [, executeRequest] = current(hook);
 
-      mockApiRequest();
-      getExecuteRequest(hook)('foo', 'bar');
+      executeRequest('foo', 'bar');
       await global.nextTick();
 
       t.equal(args[0], 'foo');
@@ -80,37 +74,28 @@ test("useAPIRequest", function(t) {
       await cleanup();
       let hook = renderHook(() => useAPIRequest(apiRequest));
 
-      mockApiRequest();
-      getExecuteRequest(hook)();
+      executeRequest(hook);
       await global.nextTick();
-
-      mockApiRequest();
-      getExecuteRequest(hook)();
+      executeRequest(hook);
 
       let [state] = current(hook);
       t.equal(state.isLoading, true);
-
-      await global.nextTick();
     });
 
     t.test("stays the same between changes", async function(t) {
       let hook = renderHook(() => useAPIRequest(apiRequest));
-      let oldExecuteRequest = getExecuteRequest(hook);
+      let [, oldExecuteRequest] = current(hook);
 
-      mockApiRequest();
       oldExecuteRequest();
       await global.nextTick();
 
-      t.equal(getExecuteRequest(hook), oldExecuteRequest);
+      t.equal(current(hook)[1], oldExecuteRequest);
     });
 
     t.test("does not display warnings if hook was unmounted during fetch", async function() {
       let hook = renderHook(() => useAPIRequest(apiRequest));
       await cleanup();
-
-      mockApiRequest();
-      getExecuteRequest(hook)();
-      await global.nextTick();
+      executeRequest(hook);
     });
   });
 });
