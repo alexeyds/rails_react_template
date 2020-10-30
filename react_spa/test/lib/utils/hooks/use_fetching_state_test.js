@@ -29,12 +29,11 @@ test("useFetchingState", function(t) {
   });
 
   t.test("actions.startRequest()", function(t) {
-    async function startRequest(hook, { response=undefined, bodyParser=undefined }={}) {
+    function startRequest(hook, { response=undefined, bodyParser=undefined }={}) {
       fetch.mock('/test-hook', { response });
       actions(hook).startRequest(fetch('/test-hook'), { bodyParser });
 
-      await fetch.nextTick();
-      return current(hook);
+      return fetch.nextTick().then(() => current(hook));
     }
 
     t.test("sets state to loaded", async function(t) {
@@ -102,6 +101,16 @@ test("useFetchingState", function(t) {
       let hook = renderHook(() => useFetchingState());
       await cleanup();
       await startRequest(hook);
+    });
+
+    t.test("resets state to loading", async function(t) {
+      await cleanup();
+      let hook = renderHook(() => useFetchingState());
+      await startRequest(hook);
+      actions(hook).startRequest(new Promise(() => {}));
+
+      let [state] = current(hook);
+      t.equal(state.isLoading, true);
     });
   });
 });

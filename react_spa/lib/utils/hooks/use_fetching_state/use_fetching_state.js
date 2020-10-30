@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { loadingState, loadedState, erroredState } from './states';
 import useMountedState from "utils/hooks/use_mounted_state";
 
@@ -6,21 +6,20 @@ export default function useFetchingState() {
   let [state, setState] = useState(loadingState);
   let mountedState = useMountedState();
 
-  let actions = useMemo(
-    () => buildActions({setState, mountedState}),
-    [setState, mountedState]
-  );
+  let maybeSetState = useCallback(state => {
+    mountedState.isMounted() && setState(state);
+  }, [setState, mountedState]);
 
-  return [state, actions];  
-}
+  let actions = useMemo(() => {
+    return {
+      startRequest: (promise, options) => {
+        maybeSetState(loadingState());
+        stateFromRequestPromise(promise, options).then(maybeSetState);
+      }
+    };
+  }, [maybeSetState]);
 
-function buildActions({setState, mountedState}) {
-  return {
-    startRequest: async function(promise, options) {
-      let state = await stateFromRequestPromise(promise, options);
-      if (mountedState.isMounted()) setState(state);
-    } 
-  };
+  return [state, actions];
 }
 
 function stateFromRequestPromise(promise, options={}) {
