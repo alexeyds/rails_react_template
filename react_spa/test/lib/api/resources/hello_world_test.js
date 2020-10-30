@@ -1,6 +1,6 @@
 import test from "test/browser_tape";
 import api from "api/resources";
-import { expectations } from "test/expectations/hello_world";
+import { expectations } from "test/api_expectations/hello_world";
 
 test("api.helloWorld", function(t) {
   t.test("#getApiVersion", function(t) {

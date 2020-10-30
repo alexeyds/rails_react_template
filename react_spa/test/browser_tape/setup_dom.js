@@ -14,7 +14,6 @@ function copyProps(src, target) {
 }
 
 let fetch = buildFetch();
-fetch.nextTick = nextTick;
 global.fetch = fetch;
 window.fetch = fetch;
 

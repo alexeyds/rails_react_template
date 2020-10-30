@@ -1,7 +1,7 @@
 import test from "test/browser_tape";
 import React from "react";
 import { render } from "test/support/react_renderer";
-import { fixtures, expectations } from "test/expectations/hello_world";
+import { fixtures, expectations } from "test/api_expectations/hello_world";
 import HelloWorldPage from "hello_world/hello_world_page";
 
 test("HelloWorldPage", function(t) {
@@ -12,7 +12,7 @@ test("HelloWorldPage", function(t) {
       });
 
       let page = render(<HelloWorldPage/>);
-      await fetch.nextTick();
+      await global.nextTick();
 
       t.equal(page.getByTestId('api-version').textContent, 'v3');
       t.equal(page.getByTestId('api-locale').textContent, 'fr');
