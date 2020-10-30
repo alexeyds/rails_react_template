@@ -1,6 +1,6 @@
-import Request from 'api/request';
+import { fetchJSON } from 'api/api_client/request';
 import apiRoutes from 'api/routes';
 
 export default {
-  getApiVersion: () => Request.get(apiRoutes.helloWorldPath())
+  getApiVersion: () => fetchJSON(apiRoutes.helloWorldPath())
 };

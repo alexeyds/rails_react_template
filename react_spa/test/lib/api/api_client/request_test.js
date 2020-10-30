@@ -1,7 +1,7 @@
 import test from "test/browser_tape";
-import { fetchJSON } from "utils/improved_fetch";
+import { fetchJSON } from "api/api_client/request";
 
-test("improved_fetch", function(t) {
+test("api_client/request", function(t) {
   t.test("fetchJSON()", function(t) {
     t.test("adds JSON headers", async function(t) {
       fetch.mock('/test', { request: { headers: {'content-type': 'application/json'} } });
