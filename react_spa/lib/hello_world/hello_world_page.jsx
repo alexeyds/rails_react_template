@@ -1,26 +1,23 @@
 import React, { useEffect } from "react";
-import useFetchingState from "utils/hooks/use_fetching_state";
+import useAPIRequest from "api/use_api_request";
 import api from "api/resources";
 
 export default function HelloWorldPage() {
-  let [helloWorldState, helloWorldActions] = useFetchingState();
-
-  useEffect(() => {
-    helloWorldActions.startRequest(api.helloWorld.getApiVersion(), { bodyParser: r => r.json() });
-  }, [helloWorldActions]);
+  let [request, executeRequest] = useAPIRequest(api.helloWorld.getApiVersion);
+  useEffect(() => executeRequest(), [executeRequest]);
 
   return (
     <div style={{textAlign: 'center'}}>
-      <ResponseDetails helloWorldState={helloWorldState}/>
+      <ResponseDetails request={request}/>
     </div>
   );
 }
 
-function ResponseDetails({helloWorldState}) {
-  if (helloWorldState.isLoading) {
+function ResponseDetails({request}) {
+  if (request.isLoading) {
     return <span>Running `GET /api/v1/hello_world`...</span>;
   } else {
-    let responseBody = helloWorldState.parsedBody;
+    let responseBody = request.response.body;
 
     return (
       <div>

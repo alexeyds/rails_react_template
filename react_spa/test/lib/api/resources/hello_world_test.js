@@ -8,11 +8,10 @@ test("api.helloWorld", function(t) {
       expectations.expectApiVersion();
 
       let response = await api.helloWorld.getApiVersion();
-      let body = await response.json();
 
       t.equal(response.status, 200);
-      t.equal(typeof body, 'object');
-      t.notSame(body, {});
+      t.equal(typeof response.body, 'object');
+      t.notSame(response.body, {});
     });
   });
 });

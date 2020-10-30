@@ -18,6 +18,7 @@ fetch.nextTick = nextTick;
 global.fetch = fetch;
 window.fetch = fetch;
 
+global.nextTick = nextTick;
 global.window = window;
 global.document = window.document;
 global.navigator = {
