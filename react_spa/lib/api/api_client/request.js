@@ -1,6 +1,5 @@
 export function fetchJSON(path, init={}) {
-  init = maybeStringifyBody(addContentType(init));
-  return fetch(path, init);
+  return fetch(path, maybeStringifyBody(addContentType(init)));
 }
 
 function addContentType(init) {
