@@ -16,7 +16,7 @@ export default function useFetchingState() {
 
 function buildActions({setState, mountedState}) {
   return {
-    handleRequestPromise: async function(promise, options) {
+    startRequest: async function(promise, options) {
       let state = await stateFromRequestPromise(promise, options);
       if (mountedState.isMounted()) setState(state);
     } 

@@ -6,7 +6,7 @@ export default function HelloWorldPage() {
   let [helloWorldState, helloWorldActions] = useFetchingState();
 
   useEffect(() => {
-    helloWorldActions.handleRequestPromise(api.helloWorld.getApiVersion(), { bodyParser: r => r.json() });
+    helloWorldActions.startRequest(api.helloWorld.getApiVersion(), { bodyParser: r => r.json() });
   }, [helloWorldActions]);
 
   return (

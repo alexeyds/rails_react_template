@@ -24,14 +24,14 @@ test("useFetchingState", function(t) {
     t.test("has actions", function(t) {
       let hook = renderHook(() => useFetchingState());
 
-      t.notEqual(actions(hook).handleRequestPromise, undefined);
+      t.notEqual(actions(hook).startRequest, undefined);
     });
   });
 
-  t.test("actions.handleRequestPromise()", function(t) {
-    async function handleRequestPromise(hook, { response=undefined, bodyParser=undefined }={}) {
+  t.test("actions.startRequest()", function(t) {
+    async function startRequest(hook, { response=undefined, bodyParser=undefined }={}) {
       fetch.mock('/test-hook', { response });
-      actions(hook).handleRequestPromise(fetch('/test-hook'), { bodyParser });
+      actions(hook).startRequest(fetch('/test-hook'), { bodyParser });
 
       await fetch.nextTick();
       return current(hook);
@@ -39,7 +39,7 @@ test("useFetchingState", function(t) {
 
     t.test("sets state to loaded", async function(t) {
       let hook = renderHook(() => useFetchingState());
-      let [state] = await handleRequestPromise(hook);
+      let [state] = await startRequest(hook);
 
       t.equal(state.response.status, 200);
       t.equal(state.success, true);
@@ -49,14 +49,14 @@ test("useFetchingState", function(t) {
 
     t.test("parses response body as text by default", async function(t) {
       let hook = renderHook(() => useFetchingState());
-      let [state] = await handleRequestPromise(hook, { response: { body: 'hello' } });
+      let [state] = await startRequest(hook, { response: { body: 'hello' } });
 
       t.equal(state.parsedBody, 'hello');
     });
 
     t.test("uses {bodyParser}", async function(t) {
       let hook = renderHook(() => useFetchingState());
-      let [state] = await handleRequestPromise(hook, { 
+      let [state] = await startRequest(hook, { 
         response: { body: JSON.stringify({a: 1}) },
         bodyParser: r => r.json()
       });
@@ -66,7 +66,7 @@ test("useFetchingState", function(t) {
 
     t.test("handles non-200 responses as errors", async function(t) {
       let hook = renderHook(() => useFetchingState());
-      let [state] = await handleRequestPromise(hook, { response: { status: 404 } });
+      let [state] = await startRequest(hook, { response: { status: 404 } });
 
       t.equal(state.response.status, 404);
       t.equal(state.success, false);
@@ -78,7 +78,7 @@ test("useFetchingState", function(t) {
     t.test("handles promise rejections as errors", async function(t) {
       let hook = renderHook(() => useFetchingState());
       let error = new Error('foobar');
-      actions(hook).handleRequestPromise(Promise.reject(error));
+      actions(hook).startRequest(Promise.reject(error));
 
       await fetch.nextTick();
       let [state] = current(hook);
@@ -93,7 +93,7 @@ test("useFetchingState", function(t) {
     t.test("actions object stays the same between changes", async function(t) {
       let hook = renderHook(() => useFetchingState());
       let oldActions = actions(hook);
-      await handleRequestPromise(hook);
+      await startRequest(hook);
 
       t.equal(actions(hook), oldActions);
     });
@@ -101,7 +101,7 @@ test("useFetchingState", function(t) {
     t.test("does not display warnings if hook was unmounted during fetch", async function() {
       let hook = renderHook(() => useFetchingState());
       await cleanup();
-      await handleRequestPromise(hook);
+      await startRequest(hook);
     });
   });
 });
