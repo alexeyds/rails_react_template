@@ -1,13 +1,13 @@
-import test from "test/browser_tape";
+import jutest from "test/browser_jutest";
 import { parseJSON } from "api/api_client/response";
 
-test("api_client/response", function(t) {
+jutest("api_client/response", function(t) {
   function fetchResponse(opts) {
     fetch.mock('/test-response', { response: opts });
     return fetch('/test-response');
   }
 
-  t.test("parseJSON()", function(t) {
+  t.describe("parseJSON()", function(t) {
     t.test("returns {success, body, fetchResponse} object", async function(t) {
       let response = await fetchResponse();
       let result = await parseJSON(response);

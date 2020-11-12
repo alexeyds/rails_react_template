@@ -1,8 +1,8 @@
-import test from "test/browser_tape";
+import jutest from "test/browser_jutest";
 import expectationsClient from "test/api_expectations/expectations_client";
 
-test("expectations_client", function(t) {
-  t.test("expectRequest()", function(t) {
+jutest("expectations_client", function(t) {
+  t.describe("expectRequest()", function(t) {
     t.test("defines fetch expectation", async function(t) {
       expectationsClient.expectRequest('/test');
       let response = await fetch('/test');

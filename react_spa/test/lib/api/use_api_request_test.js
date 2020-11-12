@@ -1,13 +1,13 @@
-import test from "test/browser_tape";
+import jutest from "test/browser_jutest";
 import { renderHook, current, cleanup } from "test/support/hooks_renderer";
 import useAPIRequest from "api/use_api_request";
 
-test("useAPIRequest", function(t) {
+jutest("useAPIRequest", function(t) {
   function apiRequest() {
     return Promise.resolve('stub request');
   }
 
-  t.test("basicUsage", function(t) {
+  t.describe("basicUsage", function(t) {
     t.test("has loading state initially", async function(t) {
       let hook = renderHook(() => useAPIRequest(apiRequest));
       let [state] = current(hook);
@@ -24,7 +24,7 @@ test("useAPIRequest", function(t) {
     });
   });
 
-  t.test("executeRequest()", function(t) {
+  t.describe("executeRequest()", function(t) {
     function executeRequest(hook) {
       return current(hook)[1]();
     }
@@ -32,21 +32,19 @@ test("useAPIRequest", function(t) {
     t.test("executes request and parses it into loaded state", async function(t) {
       let hook = renderHook(() => useAPIRequest(apiRequest));
 
-      executeRequest(hook);
-      await global.nextTick();
+      await executeRequest(hook);
 
       let [state] = current(hook);
       t.equal(state.isLoading, false);
       t.equal(state.error, null);
-      t.true(state.response);
+      t.assert(state.response);
     });
 
     t.test("handles promise rejections as errors", async function(t) {
       let request = () => Promise.reject(new Error('error!'));
       let hook = renderHook(() => useAPIRequest(request));
 
-      executeRequest(hook);
-      await global.nextTick();
+      await executeRequest(hook);
 
       let [state] = current(hook);
       t.equal(state.isLoading, false);
@@ -63,19 +61,16 @@ test("useAPIRequest", function(t) {
       let hook = renderHook(() => useAPIRequest(requestFunction));
       let [, executeRequest] = current(hook);
 
-      executeRequest('foo', 'bar');
-      await global.nextTick();
+      await executeRequest('foo', 'bar');
 
       t.equal(args[0], 'foo');
       t.equal(args[1], 'bar');
     });
 
-    t.test("it resets state to loading on subsequent calls", async function(t) {
-      await cleanup();
+    t.test("resets state to loading on subsequent calls", async function(t) {
       let hook = renderHook(() => useAPIRequest(apiRequest));
 
-      executeRequest(hook);
-      await global.nextTick();
+      await executeRequest(hook);
       executeRequest(hook);
 
       let [state] = current(hook);
@@ -86,8 +81,7 @@ test("useAPIRequest", function(t) {
       let hook = renderHook(() => useAPIRequest(apiRequest));
       let [, oldExecuteRequest] = current(hook);
 
-      oldExecuteRequest();
-      await global.nextTick();
+      await oldExecuteRequest();
 
       t.equal(current(hook)[1], oldExecuteRequest);
     });

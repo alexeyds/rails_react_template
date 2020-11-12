@@ -1,9 +1,9 @@
-import test from "test/browser_tape";
+import jutest from "test/browser_jutest";
 import api from "api/resources";
 import { expectations } from "test/api_expectations/hello_world";
 
-test("api.helloWorld", function(t) {
-  t.test("#getApiVersion", function(t) {
+jutest("api.helloWorld", function(t) {
+  t.describe("#getApiVersion", function(t) {
     t.test("fetches api version", async function(t) {
       expectations.expectApiVersion();
 

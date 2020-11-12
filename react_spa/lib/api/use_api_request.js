@@ -11,7 +11,7 @@ export default function useAPIRequest(requestFunction) {
 
   let executeRequest = useCallback(function() {
     maybeSetState(loadingState());
-    stateFromRequestPromise(requestFunction(...arguments)).then(maybeSetState);
+    return stateFromRequestPromise(requestFunction(...arguments)).then(maybeSetState);
   }, [requestFunction, maybeSetState]);
 
   return [requestState, executeRequest];

@@ -1,8 +1,8 @@
-import test from "test/browser_tape";
+import jutest from "test/browser_jutest";
 import { fetchJSON } from "api/api_client/request";
 
-test("api_client/request", function(t) {
-  t.test("fetchJSON()", function(t) {
+jutest("api_client/request", function(t) {
+  t.describe("fetchJSON()", function(t) {
     t.test("adds JSON headers", async function(t) {
       fetch.mock('/test', { request: { headers: {'content-type': 'application/json'} } });
       let response = await fetchJSON('/test');

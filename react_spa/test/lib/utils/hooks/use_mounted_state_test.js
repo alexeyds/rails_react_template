@@ -1,9 +1,9 @@
-import test from "test/browser_tape";
+import jutest from "jutest";
 import { useState } from "react";
 import { renderHook, current, cleanup } from "test/support/hooks_renderer";
 import useMountedState from "utils/hooks/use_mounted_state";
 
-test("useMountedState", function(t) {
+jutest("useMountedState", function(t) {
   t.test("sets isMounted to true", function(t) {
     let hook = renderHook(() => useMountedState());
 

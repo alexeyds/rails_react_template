@@ -1,11 +1,11 @@
-import test from "test/browser_tape";
+import jutest from "test/browser_jutest";
 import React from "react";
 import { Route } from "react-router";
 import { render } from "test/support/react_renderer";
 import TestRouter, { currentPath, redirect } from "test/support/test_router";
 
-test("TestRouter", function(t) {
-  t.test("basic usage", function(t) {
+jutest("TestRouter", function(t) {
+  t.describe("basic usage", function(t) {
     t.test("renders react-router routes", function(t) {
       let router = render(
         <TestRouter>
@@ -13,7 +13,7 @@ test("TestRouter", function(t) {
         </TestRouter>
       );
 
-      t.true(router.queryByTestId('my-page'));
+      t.assert(router.queryByTestId('my-page'));
     });
 
     t.test("uses / as an initial path", function(t) {
@@ -23,7 +23,7 @@ test("TestRouter", function(t) {
         </TestRouter>
       );
 
-      t.true(router.queryByTestId('home-page'));
+      t.assert(router.queryByTestId('home-page'));
     });
 
     t.test("initial path can be overwritten", function(t) {
@@ -33,18 +33,18 @@ test("TestRouter", function(t) {
         </TestRouter>
       );
 
-      t.true(router.queryByTestId('foo-page'));
+      t.assert(router.queryByTestId('foo-page'));
     });
   });
   
-  t.test("currentPath()", function(t) {
+  t.describe("currentPath()", function(t) {
     t.test("returns router's current path", function(t) {
       let router = render(<TestRouter initialPath={'/bar'}></TestRouter>);
       t.equal(currentPath(router), '/bar');
     });
   });
 
-  t.test("redirect", function(t) {
+  t.describe("redirect", function(t) {
     t.test("redirects to a new path", function(t) {
       let router = render(
         <TestRouter>
@@ -54,7 +54,7 @@ test("TestRouter", function(t) {
 
       redirect(router, '/foo');
 
-      t.true(router.queryByTestId('foo-page'));
+      t.assert(router.queryByTestId('foo-page'));
       t.equal(currentPath(router), '/foo');
     });
   });

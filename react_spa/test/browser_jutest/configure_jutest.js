@@ -1,22 +1,20 @@
-import test from "enhanced-tape";
+import jutest from "jutest";
 import { cleanup as unmountRenderedHooks } from 'test/support/hooks_renderer';
 import { cleanup as unmountRenderedComponents } from "test/support/react_renderer";
 
-test.beforeEach(() => {
+jutest.setup(() => {
   localStorage.clear();
   sessionStorage.clear();
   clearCookies();
 });
 
-test.afterEach((t) => {
-  try {
-    fetch.validateAndResetMocks();
-  } catch(e) {
-    t.fail(e);
-  }
+jutest.teardown(async () => {
+  await unmountRenderedComponents();
+  await unmountRenderedHooks();
+});
 
-  unmountRenderedComponents();
-  unmountRenderedHooks();
+jutest.beforeTestEnd(() => {
+  fetch.validateAndResetMocks();
 });
 
 // From: https://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript
