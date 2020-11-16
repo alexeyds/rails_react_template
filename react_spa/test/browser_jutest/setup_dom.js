@@ -14,20 +14,20 @@ function copyProps(src, target) {
 }
 
 let fetch = buildFetch();
-global.fetch = fetch;
 window.fetch = fetch;
+
+window.requestAnimationFrame = function (callback) {
+  return setTimeout(callback, 0);
+};
+window.cancelAnimationFrame = function (id) {
+  clearTimeout(id);
+};
 
 global.nextTick = nextTick;
 global.window = window;
 global.document = window.document;
 global.navigator = {
   userAgent: 'node.js',
-};
-global.requestAnimationFrame = function (callback) {
-  return setTimeout(callback, 0);
-};
-global.cancelAnimationFrame = function (id) {
-  clearTimeout(id);
 };
 
 copyProps(window, global);
