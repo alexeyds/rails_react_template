@@ -1,9 +1,9 @@
+DATABASE_USERNAME:
+DATABASE_HOST:
+DATABASE_PASSWORD:
+
 development:
   react_spa_host: "http://localhost:8080"
-  DATABASE_USERNAME:
-  DATABASE_HOST:
-  DATABASE_PASSWORD:
-
 staging:
   SECRET_KEY_BASE:
 production:

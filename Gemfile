@@ -11,6 +11,8 @@ gem 'bootsnap', '>= 1.4.2', require: false
 
 group :development, :test do
   gem 'rspec-rails', '~> 4.0.0'
+  gem 'factory_bot_rails', require: false
+  gem 'faker', require: false
 end
 
 group :development do
@@ -30,3 +32,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "figaro", "~> 1.2"
+
+gem 'bcrypt', '~> 3.1.7'
+
+gem 'dry-monads'

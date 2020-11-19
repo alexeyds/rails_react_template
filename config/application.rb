@@ -33,5 +33,15 @@ module RailsReactTemplate
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+
+    # This also configures session_options for use below
+    config.session_store :cookie_store, key: '_rails_react_template_session', same_site: :lax, expires: 20.years
+
+    # Required for all session management (regardless of session_store)
+    config.middleware.use ActionDispatch::Cookies
+
+    config.middleware.use config.session_store, config.session_options
+
+    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**/*.{rb,yml}')]
   end
 end

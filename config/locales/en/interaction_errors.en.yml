@@ -1,0 +1,8 @@
+en:
+  interaction_errors:
+    error_messages:
+      invalid_request_data: Invalid request data.
+    validation_messages:
+      missing: must be present
+      not_found: not found
+      invalid: invalid

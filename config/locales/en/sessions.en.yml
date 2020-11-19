@@ -1,0 +1,6 @@
+en:
+  sessions:
+    error_messages:
+      not_authenticated: User is not authenticated.
+      session_expired: Session has expired.
+      invalid_password: Invalid password.
