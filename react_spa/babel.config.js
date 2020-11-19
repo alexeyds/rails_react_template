@@ -28,7 +28,8 @@ function moduleResolverPlugin() {
         "./lib"
       ],
       "alias": {
-        "test": "./test"
+        "test": "./test",
+        "styles": "./styles"
       }
     }
   ];

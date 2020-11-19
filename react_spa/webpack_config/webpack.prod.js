@@ -14,4 +14,9 @@ export default merge(common, {
       chunks: 'all'
     }
   },
+
+  performance: {
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+  }
 });

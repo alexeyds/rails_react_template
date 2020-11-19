@@ -63,7 +63,7 @@ function sassLoader() {
     options: {
       implementation: require('sass'),
       sassOptions: {
-        includePaths: ['lib', 'node_modules']
+        includePaths: ['styles', 'node_modules']
       },
     },
   };

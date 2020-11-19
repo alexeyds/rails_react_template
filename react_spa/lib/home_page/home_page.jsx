@@ -1,4 +1,3 @@
-import "home_page/styles/home_page.scss";
 import React from "react";
 import logo from "home_page/images/react_logo.png";
 import routes from "application/routes";
