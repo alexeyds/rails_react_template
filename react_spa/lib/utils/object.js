@@ -3,7 +3,6 @@ import { camelize } from "utils/string";
 import isPlainObject from "lodash.isplainobject";
 export { isPlainObject };
 
-
 export function deepCamelizeKeys(object) {
   return deepMapKeys(object, camelize);
 }
