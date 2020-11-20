@@ -27,7 +27,7 @@ class SessionsController < ApplicationController
     if session
       cookies[:current_session] = {
         value: serialize_session(session).to_json,
-        httponly: true,
+        httponly: false,
         expires: session.expires_at,
         same_site: :lax
       }
