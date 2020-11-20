@@ -1,3 +1,5 @@
+import { deepCamelizeKeys } from "utils/object";
+
 export async function parseJSON(fetchedResponse) {
   let body = await fetchedResponse.text().then(safeParseJSON);
   return buildResponse({ fetchedResponse, body });
@@ -14,7 +16,7 @@ function buildResponse({ fetchedResponse, body }) {
 
 function safeParseJSON(text) {
   try {
-    return JSON.parse(text);
+    return deepCamelizeKeys(JSON.parse(text));
   } catch {
     return text;
   }
