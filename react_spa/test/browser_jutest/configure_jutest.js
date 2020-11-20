@@ -2,13 +2,10 @@ import jutest from "jutest";
 import { cleanup as unmountRenderedHooks } from 'test/support/hooks_renderer';
 import { cleanup as unmountRenderedComponents } from "test/support/react_renderer";
 
-jutest.setup(() => {
+jutest.teardown(async () => {
   localStorage.clear();
   sessionStorage.clear();
   clearCookies();
-});
-
-jutest.teardown(async () => {
   await unmountRenderedComponents();
   await unmountRenderedHooks();
 });

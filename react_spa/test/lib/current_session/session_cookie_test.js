@@ -1,4 +1,4 @@
-import jutest from "jutest";
+import jutest from "test/browser_jutest";
 import Cookies from 'js-cookie';
 import SessionCookie from "current_session/session_cookie";
 
@@ -26,13 +26,6 @@ jutest("SessionCookie", s => {
     s.test("it returns null if cookie value is not an object", t => {
       Cookies.set(SessionCookie.COOKIE_NAME, JSON.stringify(1));
       t.same(SessionCookie.extract(), null);
-    });
-  });
-
-  s.describe(".set()", s => {
-    s.test("stringifies and updates session cookie", t => {
-      SessionCookie.set({a: 1});
-      t.same(SessionCookie.extract(), {a: 1});
     });
   });
 });
