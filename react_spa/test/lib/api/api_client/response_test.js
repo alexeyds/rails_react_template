@@ -1,4 +1,7 @@
 import jutest from "test/browser_jutest";
+import { signIn } from "test/support/session";
+import SessionCookie from "current_session/session_cookie";
+import { sessionStore } from "current_session/session_store";
 import { parseJSON } from "api/api_client/response";
 
 jutest("api_client/response", s => {
@@ -35,6 +38,20 @@ jutest("api_client/response", s => {
       let result = await fetchResponse({ body: JSON.stringify({foo_bar: 1}) }).then(parseJSON);
 
       t.same(result.body, {fooBar: 1});
+    });
+
+    s.test("updates sessionStore if response status is not ok", async t => {
+      signIn();
+      SessionCookie.set(null);
+      await fetchResponse({ status: 404 }).then(parseJSON);
+      t.equal(sessionStore.getState(), null);
+    });
+
+    s.test("does not update sessionStore on ok responses", async t => {
+      signIn();
+      SessionCookie.set(null);
+      await fetchResponse().then(parseJSON);
+      t.notEqual(sessionStore.getState(), null);
     });
   });
 });

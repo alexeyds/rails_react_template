@@ -1,7 +1,9 @@
 import { deepCamelizeKeys } from "utils/object";
+import { updateSessionFromCookie } from "current_session/session_store";
 import { safeParseJSON } from "utils/json";
 
 export async function parseJSON(fetchedResponse) {
+  if (!fetchedResponse.ok) updateSessionFromCookie();
   let body = await fetchedResponse.text().then(parseResponseBody);
   return buildResponse({ fetchedResponse, body });
 }
