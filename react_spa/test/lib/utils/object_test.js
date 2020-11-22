@@ -1,5 +1,5 @@
 import jutest from "jutest";
-import { isPlainObject, deepMapKeys, deepCamelizeKeys } from "utils/object";
+import { isPlainObject, deepMapKeys, deepCamelizeKeys, isDeepEqual } from "utils/object";
 
 jutest("utils/object", s => {
   s.describe("isPlainObject()", s => {
@@ -39,6 +39,14 @@ jutest("utils/object", s => {
     s.test("camelizes object keys", t => {
       let result = deepCamelizeKeys({foo_bar: { bar_baz: 2 }});
       t.same(result, { fooBar: { barBaz: 2 } });
+    });
+  });
+
+  s.describe("isDeepEqual()", s => {
+    s.test("checks if objects are deep equal", t => {
+      t.equal(isDeepEqual({a: 1}, {a: 1}), true);
+      t.equal(isDeepEqual({a: { b: 1 }}, {a: { b: 1 }}), true);
+      t.equal(isDeepEqual({a: { b: 2 }}, {a: { b: 1 }}), false);
     });
   });
 });
