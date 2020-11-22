@@ -15,6 +15,10 @@ export default {
     } else {
       return null;
     }
+  },
+
+  set(value) {
+    Cookies.set(COOKIE_NAME, value);
   }
 };
 

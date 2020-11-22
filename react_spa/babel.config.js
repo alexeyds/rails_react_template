@@ -29,7 +29,8 @@ function moduleResolverPlugin() {
       ],
       "alias": {
         "test": "./test",
-        "styles": "./styles"
+        "styles": "./styles",
+        "api_expectations": "./test/api_expectations"
       }
     }
   ];

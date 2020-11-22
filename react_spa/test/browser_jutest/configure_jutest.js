@@ -1,4 +1,5 @@
 import jutest from "jutest";
+import { updateSessionFromCookie } from "current_session/session_store";
 import { cleanup as unmountRenderedHooks } from 'test/support/hooks_renderer';
 import { cleanup as unmountRenderedComponents } from "test/support/react_renderer";
 
@@ -6,6 +7,7 @@ jutest.teardown(async () => {
   localStorage.clear();
   sessionStorage.clear();
   clearCookies();
+  updateSessionFromCookie();
   await unmountRenderedComponents();
   await unmountRenderedHooks();
 });

@@ -13,6 +13,8 @@
   "dependencies": {
     "broutes": "^1.0.5",
     "bulma": "^0.9.1",
+    "effector": "^21.7.2",
+    "effector-react": "^21.0.8",
     "js-cookie": "^2.2.1",
     "lodash.camelcase": "^4.3.0",
     "lodash.isplainobject": "^4.0.6",
