@@ -1,5 +1,5 @@
 import jutest from "test/browser_jutest";
-import expectationsClient from "test/api_expectations/expectations_client";
+import expectationsClient from "api_expectations/expectations_client";
 
 jutest("expectations_client", function(t) {
   t.describe("expectRequest()", function(t) {

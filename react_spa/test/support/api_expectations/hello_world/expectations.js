@@ -1,5 +1,5 @@
 import { apiVersion } from './fixtures';
-import expectationsClient from "test/api_expectations/expectations_client";
+import expectationsClient from "api_expectations/expectations_client";
 import routes from 'api/routes';
 
 export function expectApiVersion({fixture=apiVersion()}={}) {

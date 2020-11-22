@@ -1,6 +1,6 @@
 import jutest from "test/browser_jutest";
 import api from "api/resources";
-import { expectations } from "test/api_expectations/hello_world";
+import { expectations } from "api_expectations/hello_world";
 
 jutest("api.helloWorld", function(t) {
   t.describe("#getApiVersion", function(t) {

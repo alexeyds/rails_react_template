@@ -1,7 +1,7 @@
 import jutest from "test/browser_jutest";
 import React from "react";
 import { render } from "test/support/react_renderer";
-import { fixtures, expectations } from "test/api_expectations/hello_world";
+import { fixtures, expectations } from "api_expectations/hello_world";
 import HelloWorldPage from "hello_world/hello_world_page";
 
 jutest("HelloWorldPage", function(t) {

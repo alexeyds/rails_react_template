@@ -30,7 +30,7 @@ function moduleResolverPlugin() {
       "alias": {
         "test": "./test",
         "styles": "./styles",
-        "api_expectations": "./test/api_expectations"
+        "api_expectations": "./test/support/api_expectations"
       }
     }
   ];
