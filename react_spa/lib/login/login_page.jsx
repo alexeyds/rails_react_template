@@ -13,12 +13,10 @@ export default function LoginPage() {
   return (
     <GuestLayout>
       <div className="container" test-id="login-page">
-        <div className="columns is-centered">
-          <div className="column is-two-fifths">
+        <div className="columns is-centered has-text-centered">
+          <div className="column is-4">
             <div className="box login-box">
-              <div className="has-text-centered mb-4">
-                <h2 className="title">Rails-React Template</h2>
-              </div>
+              <h2 className="title mb-5">Rails-React Template</h2>
               <form onSubmit={handleSubmit(onSubmit)} test-id='login-form'>
                 <div className="field">
                   <div className="control has-icons-right">
@@ -34,19 +32,16 @@ export default function LoginPage() {
                   </div>
                 </div>
 
-                <div className="field is-flex is-justify-content-space-between">
-                  <div><a>Forgot password?</a></div>
-                  <div className="control">
-                    <button type="submit" className="button is-info">
-                      <span className="icon is-small">
-                        <i className="fas fa-key"></i>
-                      </span>
-                      <span>Log In</span>
-                    </button>
-                  </div>
-                </div>
+                <button className="button is-block is-info is-medium is-fullwidth" type="submit">
+                  <span>Log In</span>
+                  <span className="icon is-small"> <i className="fas fa-key"></i></span>
+                </button>
               </form>
             </div>
+
+            <p className="has-text-link-white">
+              <a className="is-white">Forgot Password?</a> 
+            </p>
           </div>
         </div>
       </div>

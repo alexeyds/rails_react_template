@@ -11,7 +11,7 @@ export default function GuestLayout({children}) {
     return <Redirect to={routes.rootPath()}/>;
   } else {  
     return (
-      <section className="hero has-background-black-ter is-fullheight guest-hero">
+      <section className="hero is-light is-fullheight">
         <div className="hero-body">
           {children}
         </div>
