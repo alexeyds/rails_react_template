@@ -10,7 +10,7 @@ module Sessions
     private
 
     def render_user(user)
-      user.slice(:id, :email)
+      user.slice(:id)
     end
   end
 end
