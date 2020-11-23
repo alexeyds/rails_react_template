@@ -52,6 +52,11 @@ export default {
         test: /\.(png|jpe?g|gif)$/i,
         use: [imagesLoader()],
       },
+
+      {
+        test: /\.(woff|woff2|eot|ttf|otf|svg)$/,
+        use: [fontsLoader()],
+      },
     ]
   },
 };
@@ -75,5 +80,14 @@ function imagesLoader() {
     options: {
       name: 'images/[name].[contenthash:8].[ext]',
     },
+  };
+}
+
+function fontsLoader() {
+  return {
+    loader: 'file-loader',
+    options: {
+      name: 'fonts/[name].[contenthash:8].[ext]'
+    }
   };
 }

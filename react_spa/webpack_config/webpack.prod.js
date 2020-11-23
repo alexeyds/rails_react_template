@@ -17,6 +17,7 @@ export default merge(common, {
 
   performance: {
     maxEntrypointSize: 512000,
-    maxAssetSize: 512000
+    maxAssetSize: 512000,
+    assetFilter: (name) => !(/\.map$/.test(name) || (/\.svg$/.test(name)))
   }
 });
