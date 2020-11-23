@@ -1,5 +1,5 @@
-export function sessionCreated() {
-  return { current_session: session(...arguments) };
+export function sessionCreated({ currentSession=session() }={}) {
+  return { current_session: currentSession };
 }
 
 export function sessionDestroyed() {
