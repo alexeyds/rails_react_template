@@ -39,3 +39,5 @@ export function redirect(router, path) {
     { target: { value: path } }
   );
 }
+
+export { default as routes } from "application/routes";

@@ -8,3 +8,5 @@ export default function ApplicationEnv({initialPath, children}) {
     </TestRouter>
   );
 }
+
+export * from "test/support/test_router";
