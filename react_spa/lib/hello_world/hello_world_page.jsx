@@ -1,15 +1,18 @@
 import React, { useEffect } from "react";
 import useAPIRequest from "api/use_api_request";
 import api from "api/resources";
+import UserLayout from "layouts/user_layout";
 
 export default function HelloWorldPage() {
   let [request, executeRequest] = useAPIRequest(api.helloWorld.getApiVersion);
   useEffect(() => executeRequest(), [executeRequest]);
 
   return (
-    <div style={{textAlign: 'center'}}>
-      <ResponseDetails request={request}/>
-    </div>
+    <UserLayout>
+      <div style={{textAlign: 'center'}}>
+        <ResponseDetails request={request}/>
+      </div>
+    </UserLayout>
   );
 }
 

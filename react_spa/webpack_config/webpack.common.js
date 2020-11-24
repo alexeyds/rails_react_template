@@ -50,11 +50,13 @@ export default {
 
       {
         test: /\.(png|jpe?g|gif)$/i,
+        exclude: [/fonts/],
         use: [imagesLoader()],
       },
 
       {
         test: /\.(woff|woff2|eot|ttf|otf|svg)$/,
+        exclude: [/images/],
         use: [fontsLoader()],
       },
     ]
