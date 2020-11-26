@@ -1,5 +1,5 @@
 import jutest from "test/browser_jutest";
-import { renderHook, current, cleanup } from "test/support/hooks_renderer";
+import { renderHook, current } from "test/support/hooks_renderer";
 import useAPIRequest from "api/use_api_request";
 
 jutest("useAPIRequest", function(t) {
@@ -84,12 +84,6 @@ jutest("useAPIRequest", function(t) {
       await oldExecuteRequest();
 
       t.equal(current(hook)[1], oldExecuteRequest);
-    });
-
-    t.test("does not display warnings if hook was unmounted during fetch", async function() {
-      let hook = renderHook(() => useAPIRequest(apiRequest));
-      await cleanup();
-      executeRequest(hook);
     });
   });
 });

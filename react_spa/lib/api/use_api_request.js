@@ -1,18 +1,13 @@
-import { useState, useCallback } from 'react';
-import useMountedState from "utils/hooks/use_mounted_state";
+import { useCallback } from 'react';
+import useSafeSetState from "utils/hooks/use_safe_set_state";
 
 export default function useAPIRequest(requestFunction) {
-  let [requestState, setState] = useState(loadingState());
-  let mountedState = useMountedState();
-
-  let maybeSetState = useCallback(state => {
-    mountedState.isMounted() && setState(state);
-  }, [setState, mountedState]);
+  let [requestState, setState] = useSafeSetState(loadingState());
 
   let executeRequest = useCallback(function() {
-    maybeSetState(loadingState());
-    return stateFromRequestPromise(requestFunction(...arguments)).then(maybeSetState);
-  }, [requestFunction, maybeSetState]);
+    setState(loadingState());
+    return stateFromRequestPromise(requestFunction(...arguments)).then(setState);
+  }, [requestFunction, setState]);
 
   return [requestState, executeRequest];
 }
