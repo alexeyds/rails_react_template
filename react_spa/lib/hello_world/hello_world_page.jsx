@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import useAPIRequest from "api/use_api_request";
+import { useRemoteRequest, states } from "remote_request";
 import api from "api/resources";
 import UserLayout from "layouts/user_layout";
 
 export default function HelloWorldPage() {
-  let [request, executeRequest] = useAPIRequest(api.helloWorld.getApiVersion);
+  let [request, executeRequest] = useRemoteRequest(api.helloWorld.getApiVersion);
   useEffect(() => executeRequest(), [executeRequest]);
 
   return (
@@ -17,9 +17,7 @@ export default function HelloWorldPage() {
 }
 
 function ResponseDetails({request}) {
-  if (request.isLoading) {
-    return <span>Running `GET /api/v1/hello_world`...</span>;
-  } else {
+  if (request.state === states.loaded) {
     let responseBody = request.response.body;
 
     return (
@@ -29,5 +27,7 @@ function ResponseDetails({request}) {
         <div>Details: <span>{responseBody.details}</span></div>
       </div>
     );
+  } else {
+    return <span>Running `GET /api/v1/hello_world`...</span>;
   }
 }
