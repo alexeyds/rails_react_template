@@ -37,6 +37,6 @@ class SessionsController < ApplicationController
   end
 
   def serialize_session(session)
-    session && Sessions::SessionSerializer.render(session)
+    session && SessionSerializer.render(session)
   end
 end
