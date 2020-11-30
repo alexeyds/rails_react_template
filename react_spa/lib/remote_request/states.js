@@ -1,8 +1,7 @@
 let STATES = {
   initial: 'initial',
   loading: 'loading',
-  loaded:  'loaded',
-  errored: 'errored'
+  loaded:  'loaded'
 };
 
 export function initialState() {
@@ -26,14 +25,6 @@ export function loadedState({ response }) {
     state: STATES.loaded,
     response,
     error: null
-  };
-}
-
-export function erroredState({ error }) {
-  return {
-    state: STATES.errored,
-    response: null,
-    error
   };
 }
 

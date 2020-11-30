@@ -41,17 +41,6 @@ jutest("useRemoteRequest()", s => {
       t.equal(request.error, null);
     });
 
-    s.test("sets state to errored", async t => {
-      let hook = renderHook(() => useRemoteRequest(() => Promise.reject('error')));
-
-      await executeRequest(hook);
-      let [request] = current(hook);
-
-      t.equal(request.state, states.errored);
-      t.equal(request.response, null);
-      t.equal(request.error, 'error');
-    });
-
     s.test("passes arguments to request function", async t => {
       let args;
       let hook = renderHook(() => useRemoteRequest(async function() {

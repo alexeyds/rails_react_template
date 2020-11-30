@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import useSafeSetState from "utils/hooks/use_safe_set_state";
-import { initialState, loadingState, loadedState, erroredState } from "remote_request/states";
+import { initialState, loadingState, loadedState } from "remote_request/states";
 
 export default function useRemoteRequest(request) {
   let [state, setState] = useSafeSetState(initialState);
@@ -15,7 +15,6 @@ export default function useRemoteRequest(request) {
 
 function stateFromRequestPromise(promise) {
   return promise.then(
-    response => loadedState({response}),
-    error => erroredState({error})
+    response => loadedState({response})
   );
 }

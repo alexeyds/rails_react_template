@@ -1,6 +1,6 @@
 export function generalError({explanation=null}={}) {
   let errorDescription = getErrorDescriptionFrom(explanation);
-  return `Something went wrong${errorDescription}. Please try again or contact support.`;
+  return `Something went wrong${errorDescription}.`;
 }
 
 function getErrorDescriptionFrom(str) {

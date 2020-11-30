@@ -1,9 +1,13 @@
+import config from "config";
 import { fetchJSON } from "api_client/request";
-import normalizeApiResponse from "api_client/response";
+import { handleServerResponse, handleFetchError } from "api_client/response";
 
 let apiClient = {
   executeRequest: function() {
-    return fetchJSON(...arguments).then(normalizeApiResponse);
+    // TODO: remove this when fetcherino is able to check mocks synchronously
+    let errorHandler = config.env.isTest ? undefined : handleFetchError;
+
+    return fetchJSON(...arguments).then(handleServerResponse, errorHandler);
   }
 };
 
