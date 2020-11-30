@@ -1,24 +1,21 @@
 import React, { useEffect } from "react";
-import { useRemoteRequest, states } from "remote_request";
+import { usePromiseLoader } from "promise_loader";
 import api from "api_client/resources";
-import UserLayout from "layouts/user_layout";
 
 export default function HelloWorldPage() {
-  let [request, executeRequest] = useRemoteRequest(api.helloWorld.getApiVersion);
-  useEffect(() => executeRequest(), [executeRequest]);
+  let [promiseLoader, loadPromise] = usePromiseLoader(api.helloWorld.getApiVersion);
+  useEffect(() => loadPromise(), [loadPromise]);
 
   return (
-    <UserLayout>
-      <div style={{textAlign: 'center'}}>
-        <ResponseDetails request={request}/>
-      </div>
-    </UserLayout>
+    <div style={{textAlign: 'center'}}>
+      <ResponseDetails promiseLoader={promiseLoader}/>
+    </div>
   );
 }
 
-function ResponseDetails({request}) {
-  if (request.state === states.loaded) {
-    let responseBody = request.response.body;
+function ResponseDetails({promiseLoader}) {
+  if (promiseLoader.result) {
+    let responseBody = promiseLoader.result.body;
 
     return (
       <div>

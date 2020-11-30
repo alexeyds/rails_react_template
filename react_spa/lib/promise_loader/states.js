@@ -7,7 +7,7 @@ let STATES = {
 export function initialState() {
   return {
     state: STATES.initial,
-    response: null,
+    result: null,
     error: null
   };
 }
@@ -15,15 +15,15 @@ export function initialState() {
 export function loadingState() {
   return {
     state: STATES.loading,
-    response: null,
+    result: null,
     error: null
   };
 }
 
-export function loadedState({ response }) {
+export function loadedState(result) {
   return {
     state: STATES.loaded,
-    response,
+    result,
     error: null
   };
 }
