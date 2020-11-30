@@ -4,6 +4,7 @@ import GuestLayout from "layouts/guest_layout";
 import { useForm } from 'react-hook-form';
 import { usePromiseLoader } from 'promise_loader';
 import { LoadingButton } from "promise_loader/components";
+import ResponseErrorMessage from "errors/response_error_message";
 import { updateSessionFromCookie } from "current_session/session_store";
 
 export default function LoginPage() {
@@ -21,6 +22,7 @@ export default function LoginPage() {
           <div className="column is-4">
             <div className="box login-box">
               <h2 className="title mb-5">Rails-React Template</h2>
+              <ResponseErrorMessage response={promiseLoader.result}/>
               <form onSubmit={handleSubmit(onSubmit)} test-id='login-form'>
                 <div className="field">
                   <div className="control has-icons-right">

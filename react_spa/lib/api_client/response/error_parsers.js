@@ -10,13 +10,9 @@ export function parseServerError({body, status}) {
   }
 
   return { 
-    message: message || defaultMessage(status),
+    message: message || generalError({explanation: `${status} ответ сервера`}),
     details: details || {} 
   };
-}
-
-function defaultMessage(status) {
-  return generalError({explanation: `server returned ${status}`});
 }
 
 export function parseFetchError(error) {

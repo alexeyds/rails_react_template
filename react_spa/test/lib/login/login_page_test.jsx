@@ -14,7 +14,7 @@ function Page(props) {
 
 jutest("LoginPage", s => {
   s.describe("login form", s => {
-    s.test("is not rendered if user is logged out", t => {
+    s.test("is not rendered if user is logged in", t => {
       signIn();
       let page = render(<Page/>);
       t.refute(page.queryByTestId("login-form"));
@@ -31,6 +31,17 @@ jutest("LoginPage", s => {
 
       t.equal(currentPath(page), routes.rootPath());
       t.notEqual(sessionStore.getState(), null);
+    });
+
+    s.test("renders errors", async t => {
+      let page = render(<Page/>);
+      expectations.expectLoginError();
+
+      fillForm(page, { email: 'foo@bar.com', password: 'password' });
+      submitForm(page);
+      await global.nextTick();
+
+      t.assert(page.queryByTestId('login-form'));
     });
   });
 });
