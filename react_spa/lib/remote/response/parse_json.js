@@ -1,7 +1,7 @@
 import { deepCamelizeKeys } from "utils/object";
 import { safeParseJSON } from "utils/json";
 
-export function parseJSON(response) {
+export default function parseJSON(response) {
   return response.text().then(bodyFromJSON);
 }
 

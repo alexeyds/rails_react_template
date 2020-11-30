@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { usePromiseLoader } from "promise_loader";
-import api from "api_client/resources";
+import resources from "remote/resources";
 
 export default function HelloWorldPage() {
-  let [promiseLoader, loadPromise] = usePromiseLoader(api.helloWorld.getApiVersion);
+  let [promiseLoader, loadPromise] = usePromiseLoader(resources.helloWorld.getApiVersion);
   useEffect(() => loadPromise(), [loadPromise]);
 
   return (

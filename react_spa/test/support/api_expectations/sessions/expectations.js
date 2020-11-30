@@ -1,6 +1,6 @@
 import SessionCookie from "current_session/session_cookie";
 import expectationsClient from "api_expectations/expectations_client";
-import { routes } from 'api_client';
+import routes from 'remote/routes';
 import { fixtures as errorFixtures } from "api_expectations/errors";
 import { sessionDestroyed, sessionCreated, session } from './fixtures';
 

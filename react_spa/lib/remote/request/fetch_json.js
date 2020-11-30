@@ -1,4 +1,4 @@
-export function fetchJSON(path, init={}) {
+export default function fetchJSON(path, init={}) {
   return fetch(path, maybeStringifyBody(addContentType(init)));
 }
 
