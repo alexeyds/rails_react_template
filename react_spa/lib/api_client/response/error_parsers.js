@@ -16,7 +16,7 @@ export function parseServerError({body, status}) {
 }
 
 function defaultMessage(status) {
-  return generalError({explanation: `${status} ответ сервера`});
+  return generalError({explanation: `server returned ${status}`});
 }
 
 export function parseFetchError(error) {
