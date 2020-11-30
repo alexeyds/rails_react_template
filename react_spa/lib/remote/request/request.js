@@ -1,9 +1,11 @@
+import config from "config";
 import fetchJSON from "./fetch_json";
 import { updateSessionFromCookie } from "current_session/session_store";
 import Response from "remote/response";
 
 export default function request() {
-  return fetchJSON(...arguments).then(handleServerResponse);
+  let errorHandler = config.env.isTest ? undefined : Response.fromError;
+  return fetchJSON(...arguments).then(handleServerResponse, errorHandler);
 }
 
 function handleServerResponse(response) {
