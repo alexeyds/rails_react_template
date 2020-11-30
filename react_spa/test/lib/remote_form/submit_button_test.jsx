@@ -30,15 +30,4 @@ jutest("remote_form/SubmitButton", s => {
     t.equal(button.disabled, true);
     t.equal(button.className, 'is-loading');
   });
-
-  s.test("appends is-loading class to existing classes", t => {
-    let form = render(
-      <RemoteForm request={requestStates.loadingState()}>
-        <SubmitButton test-id='my-button' className='foobar'/>
-      </RemoteForm>
-    );
-
-    let button = form.getByTestId('my-button');
-    t.equal(button.className, 'foobar is-loading');
-  });
 });
