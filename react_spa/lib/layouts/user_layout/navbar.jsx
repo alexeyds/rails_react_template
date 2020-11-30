@@ -2,7 +2,7 @@ import React from "react";
 import logo from "images/react_logo.png";
 import { Link } from "react-router-dom";
 import routes from "application/routes";
-import api from "api/resources";
+import api from "api_client/resources";
 import { updateSessionFromCookie } from "current_session/session_store";
 
 export default function Navbar() {

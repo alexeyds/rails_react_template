@@ -1,5 +1,5 @@
-import { fetchJSON } from "api/api_client/request";
-import normalizeApiResponse from "api/api_client/response";
+import { fetchJSON } from "api_client/request";
+import normalizeApiResponse from "api_client/response";
 
 let apiClient = {
   executeRequest: function() {

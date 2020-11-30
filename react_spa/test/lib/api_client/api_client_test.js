@@ -1,5 +1,5 @@
 import jutest from "test/browser_jutest";
-import apiClient from "api/api_client";
+import apiClient from "api_client";
 
 jutest("apiClient", function(t) {
   t.describe("executeRequest", function(t) {

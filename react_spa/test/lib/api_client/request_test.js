@@ -1,5 +1,5 @@
 import jutest from "test/browser_jutest";
-import { fetchJSON } from "api/api_client/request";
+import { fetchJSON } from "api_client/request";
 
 jutest("api_client/request", function(t) {
   t.describe("fetchJSON()", function(t) {

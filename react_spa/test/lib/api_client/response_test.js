@@ -3,7 +3,7 @@ import { signIn } from "test/support/session";
 import SessionCookie from "current_session/session_cookie";
 import { fixtures as errorFixtures } from "api_expectations/errors";
 import { sessionStore } from "current_session/session_store";
-import normalizeApiResponse from "api/api_client/response";
+import normalizeApiResponse from "api_client/response";
 
 jutest("normalizeApiResponse()", s => {
   function fetchResponse(opts) {

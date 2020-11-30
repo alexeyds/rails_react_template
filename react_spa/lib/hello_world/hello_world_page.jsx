@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useRemoteRequest, states } from "remote_request";
-import api from "api/resources";
+import api from "api_client/resources";
 import UserLayout from "layouts/user_layout";
 
 export default function HelloWorldPage() {
