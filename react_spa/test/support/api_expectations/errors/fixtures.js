@@ -1,8 +1,8 @@
-export function flowError({message='Invalid request data.'}) {
+export function flowError({message='Invalid request data.', details={}}={}) {
   return {
     error: {
       message,
-      details: {},
+      details,
       type: 'flow_error'
     }
   };

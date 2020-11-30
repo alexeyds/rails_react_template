@@ -1,9 +1,9 @@
 import { fetchJSON } from "api/api_client/request";
-import { parseJSON } from "api/api_client/response";
+import normalizeApiResponse from "api/api_client/response";
 
 let apiClient = {
   executeRequest: function() {
-    return fetchJSON(...arguments).then(parseJSON);
+    return fetchJSON(...arguments).then(normalizeApiResponse);
   }
 };
 
