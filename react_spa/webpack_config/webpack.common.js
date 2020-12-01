@@ -16,7 +16,8 @@ export default {
   },
 
   entry: {
-    [`react_spa`]: ["regenerator-runtime/runtime", "./lib/initialize_spa.js"]
+    [`react_spa`]: ["regenerator-runtime/runtime", "./lib/initialize_spa.js"],
+    ['stylesheets']: ["./styles/application.scss"]
   },
 
   output: {

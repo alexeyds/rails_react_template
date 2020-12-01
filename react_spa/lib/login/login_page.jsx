@@ -21,6 +21,7 @@ export default function LoginPage() {
           <div className="column is-4">
             <div className="box login-box">
               <h2 className="title mb-5">Rails-React Template</h2>
+              <span className='has-text-danger'>{remoteLoader.response?.errorMessage}</span>
               <form onSubmit={handleSubmit(onSubmit)} test-id='login-form'>
                 <div className="field">
                   <div className="control has-icons-right">
