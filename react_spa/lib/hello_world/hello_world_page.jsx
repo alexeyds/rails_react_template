@@ -1,21 +1,21 @@
 import React, { useEffect } from "react";
-import { usePromiseLoader } from "promise_loader";
+import { useRemoteLoader } from "remote_loader";
 import resources from "remote/resources";
 
 export default function HelloWorldPage() {
-  let [promiseLoader, loadPromise] = usePromiseLoader(resources.helloWorld.getApiVersion);
-  useEffect(() => loadPromise(), [loadPromise]);
+  let [remoteLoader, loadRemote] = useRemoteLoader(resources.helloWorld.getApiVersion);
+  useEffect(() => loadRemote(), [loadRemote]);
 
   return (
     <div style={{textAlign: 'center'}}>
-      <ResponseDetails promiseLoader={promiseLoader}/>
+      <ResponseDetails remoteLoader={remoteLoader}/>
     </div>
   );
 }
 
-function ResponseDetails({promiseLoader}) {
-  if (promiseLoader.result) {
-    let responseBody = promiseLoader.result.body;
+function ResponseDetails({remoteLoader}) {
+  if (remoteLoader.isLoaded) {
+    let responseBody = remoteLoader.response.body;
 
     return (
       <div>

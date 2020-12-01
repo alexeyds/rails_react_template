@@ -2,16 +2,16 @@ import React from "react";
 import resources from "remote/resources";
 import GuestLayout from "layouts/guest_layout";
 import { useForm } from 'react-hook-form';
-import { usePromiseLoader } from 'promise_loader';
-import { LoadingButton } from "promise_loader/components";
+import { useRemoteLoader } from "remote_loader";
+import { LoadingButton } from "remote_loader/components";
 import { updateSessionFromCookie } from "current_session/session_store";
 
 export default function LoginPage() {
   let { register, handleSubmit } = useForm();
-  let [promiseLoader, loadPromise] = usePromiseLoader(resources.sessions.create);
+  let [remoteLoader, loadRemote] = useRemoteLoader(resources.sessions.create);
 
   let onSubmit = (data) => {
-    loadPromise(data).then(() => updateSessionFromCookie());
+    loadRemote(data).then(() => updateSessionFromCookie());
   };
 
   return (
@@ -36,7 +36,7 @@ export default function LoginPage() {
                   </div>
                 </div>
 
-                <LoadingButton promiseLoader={promiseLoader} className="button is-block is-info is-medium is-fullwidth" type="submit">
+                <LoadingButton remoteLoader={remoteLoader} className="button is-block is-info is-medium is-fullwidth" type="submit">
                   <span>Log In</span>
                   <span className="icon is-small"> <i className="fas fa-key"></i></span>
                 </LoadingButton>
