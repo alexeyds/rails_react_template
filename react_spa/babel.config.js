@@ -31,7 +31,7 @@ function moduleResolverPlugin() {
         "test": "./test",
         "styles": "./styles",
         "images": "./images",
-        "api_expectations": "./test/support/api_expectations"
+        "remote_expectations": "./test/support/remote_expectations"
       }
     }
   ];

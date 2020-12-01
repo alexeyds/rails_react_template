@@ -1,6 +1,6 @@
 import jutest from "test/browser_jutest";
 import React from "react";
-import { expectations } from "api_expectations/sessions";
+import { expectations } from "remote_expectations";
 import { fillForm, submitForm } from "test/support/form_helpers";
 import { signIn, currentSession } from "test/support/session";
 import { render } from "test/support/react_renderer";
@@ -22,7 +22,7 @@ jutest("LoginPage", s => {
     s.test("logs user in", async t => {
       let page = render(<Page/>);
       let params = { email: "foobar@test.com", password: '123' };
-      expectations.expectLogin({body: params});
+      expectations.sessions.expectLogin({body: params});
 
       fillForm(page, params);
       submitForm(page);
@@ -34,7 +34,7 @@ jutest("LoginPage", s => {
 
     s.test("renders errors", async t => {
       let page = render(<Page/>);
-      expectations.expectLoginError();
+      expectations.sessions.expectLoginError();
 
       fillForm(page, { email: 'foo@bar.com', password: 'password' });
       submitForm(page);

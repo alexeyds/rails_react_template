@@ -1,6 +1,6 @@
 import jutest from "test/browser_jutest";
 import React from "react";
-import { expectations } from "api_expectations/sessions";
+import { expectations } from "remote_expectations";
 import { render, fireEvent } from "test/support/react_renderer";
 import { signIn, currentSession } from "test/support/session";
 import ApplicationEnv, { currentPath, routes } from "test/support/application_env";
@@ -24,7 +24,7 @@ jutest("UserLayout", s => {
     s.test("renders logout button", async t => {
       signIn();
       let result = render(<Layout/>);
-      expectations.expectLogout();
+      expectations.sessions.expectLogout();
       fireEvent.click(result.getByTestId('logout-link'));
       await global.nextTick();
 
