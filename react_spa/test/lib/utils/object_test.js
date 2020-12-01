@@ -1,5 +1,5 @@
 import jutest from "jutest";
-import { isPlainObject, deepMapKeys, deepCamelizeKeys, isDeepEqual } from "utils/object";
+import { isPlainObject, deepMapKeys, deepCamelizeKeys, isDeepEqual, dig } from "utils/object";
 
 jutest("utils/object", s => {
   s.describe("isPlainObject()", s => {
@@ -47,6 +47,15 @@ jutest("utils/object", s => {
       t.equal(isDeepEqual({a: 1}, {a: 1}), true);
       t.equal(isDeepEqual({a: { b: 1 }}, {a: { b: 1 }}), true);
       t.equal(isDeepEqual({a: { b: 2 }}, {a: { b: 1 }}), false);
+    });
+  });
+
+  s.describe("dig()", s => {
+    s.test("digs for path inside of object", t => {
+      t.equal(dig({a: 1}, 'a'), 1);
+      t.equal(dig({a: { b: 2 }}, 'a.b'), 2);
+      t.equal(dig({}, 'a'), undefined);
+      t.equal(dig({}, 'a.b', 'default'), 'default');
     });
   });
 });

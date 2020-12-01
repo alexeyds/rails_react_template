@@ -1,9 +1,9 @@
 import { camelize } from "utils/string";
-
 import isPlainObject from "lodash.isplainobject";
-export { isPlainObject };
 
+export { isPlainObject };
 export { default as isDeepEqual } from "lodash.isequal";
+export { default as dig } from "lodash.get";
 
 export function deepCamelizeKeys(object) {
   return deepMapKeys(object, camelize);

@@ -1,4 +1,4 @@
-import { deepCamelizeKeys, isPlainObject } from "utils/object";
+import { deepCamelizeKeys, isPlainObject, dig } from "utils/object";
 import { safeParseJSON } from "utils/json";
 
 export default class Response {
@@ -19,5 +19,19 @@ export default class Response {
     this.body = isPlainObject(body) ? deepCamelizeKeys(body) : body;
     this.rawResponse = rawResponse;
     this.error = error;
+  }
+
+  get errorMessage() {
+    if (this.success) {
+      return null;
+    } else if (this.error) {
+      return `Something went wrong (${this.error.message})`;
+    } else {
+      return dig(this.body, 'error.message', `Something went wrong (server returned ${this.status}).`);
+    }
+  }
+
+  get errorDetails() {
+    return dig(this.body, 'error.details', {});
   }
 }
