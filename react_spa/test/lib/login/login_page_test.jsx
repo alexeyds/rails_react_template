@@ -1,9 +1,8 @@
 import jutest from "test/browser_jutest";
 import React from "react";
 import { expectations } from "api_expectations/sessions";
-import { sessionStore } from "current_session/session_store";
 import { fillForm, submitForm } from "test/support/form_helpers";
-import { signIn } from "test/support/session";
+import { signIn, currentSession } from "test/support/session";
 import { render } from "test/support/react_renderer";
 import ApplicationEnv, { currentPath, routes } from "test/support/application_env";
 import LoginPage from "login/login_page";
@@ -30,7 +29,7 @@ jutest("LoginPage", s => {
       await global.nextTick();
 
       t.equal(currentPath(page), routes.rootPath());
-      t.notEqual(sessionStore.getState(), null);
+      t.notEqual(currentSession(), null);
     });
 
     s.test("renders errors", async t => {

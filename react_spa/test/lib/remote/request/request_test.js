@@ -1,8 +1,7 @@
 import jutest from "test/browser_jutest";
 import request from "remote/request";
-import { signIn } from "test/support/session";
+import { signIn, currentSession } from "test/support/session";
 import SessionCookie from "current_session/session_cookie";
-import { sessionStore } from "current_session/session_store";
 
 jutest("request()", s => {
   s.test("fetches endpoint and parses JSON response", async t => {
@@ -15,14 +14,14 @@ jutest("request()", s => {
     t.same(result.body, { hi: 'hello' });
   });
 
-  s.test("updates sessionStore if response status is not ok", async t => {
+  s.test("updates current session if response status is not ok", async t => {
     signIn();
-    SessionCookie.set(null);
 
     fetch.mock('/test-remote', { response: { status: 400 } });
+    SessionCookie.set(null);
     await request('/test-remote');
 
-    t.equal(sessionStore.getState(), null);
+    t.equal(currentSession(), null);
   });
 
   s.test("has shortcuts for common http methods", async t => {

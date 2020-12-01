@@ -12,6 +12,12 @@ jutest("Response", s => {
       t.equal(response.rawResponse, 'stub');
       t.equal(response.error, 'err');
     });
+
+    s.test("camelizes response body keys", t => {
+      let response = new Response({ body: { foo_bar: "baz" } });
+
+      t.same(response.body, {fooBar: "baz"});
+    });
   });
 
   s.describe(".fromFetchResponse()", s => {

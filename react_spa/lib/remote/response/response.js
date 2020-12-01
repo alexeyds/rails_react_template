@@ -1,11 +1,12 @@
-import parseJSON from "./parse_json";
+import { deepCamelizeKeys, isPlainObject } from "utils/object";
+import { safeParseJSON } from "utils/json";
 
 export default class Response {
   static async fromFetchResponse(rawResponse) {
-    let body = await parseJSON(rawResponse);
+    let parsedBody = await rawResponse.text().then(safeParseJSON);
     let { status, ok: success } = rawResponse;
 
-    return new Response({ success, status, body, rawResponse });
+    return new Response({ success, status, body: parsedBody.value, rawResponse });
   }
   
   static fromError(error) {
@@ -15,7 +16,7 @@ export default class Response {
   constructor({success, status, body, rawResponse, error=null}) {
     this.success = success;
     this.status = status;
-    this.body = body;
+    this.body = isPlainObject(body) ? deepCamelizeKeys(body) : body;
     this.rawResponse = rawResponse;
     this.error = error;
   }
