@@ -1,17 +1,11 @@
-import config from "config";
 import fetchJSON from "./fetch_json";
 import { updateSessionFromCookie } from "current_session/session_store";
-import Response from "remote/response";
 
 export default function request() {
-  let errorHandler = config.env.isTest ? undefined : Response.fromError;
-  return fetchJSON(...arguments).then(handleServerResponse, errorHandler);
-}
-
-function handleServerResponse(response) {
-  if (!response.ok) updateSessionFromCookie();
-
-  return Response.fromFetchResponse(response);
+  return fetchJSON(...arguments).then(r => {
+    if (!r.ok) updateSessionFromCookie();
+    return r;
+  });
 }
 
 ['get', 'post', 'patch', 'put', 'delete'].forEach(method => {

@@ -1,101 +1,158 @@
 import jutest from "test/browser_jutest";
 import { fixtures } from "remote_expectations";
-import Response from "remote/response";
+import { Response } from "remote/response";
 
 jutest("Response", s => {
-  s.describe("#constructor", s => {
-    s.test("allows overwriting resposne attributes via options", t => {
-      let response = new Response({ success: true, status: 202, body: 'foobar', rawResponse: 'stub', error: 'err'});
+  function fetchResponse(response) {
+    fetch.mock('/test', { response });
+    return fetch('/test');
+  }
 
-      t.equal(response.success, true);
-      t.equal(response.status, 202);
-      t.equal(response.body, 'foobar');
-      t.equal(response.rawResponse, 'stub');
-      t.equal(response.error, 'err');
+  function flowError() {
+    return JSON.stringify(fixtures.errors.flowError(...arguments));
+  }
+
+  s.describe("constructor", s => {
+    s.test("accepts {state} property", t => {
+      let response = new Response({state: 'foobar'});
+
+      t.equal(response.state, 'foobar');
+      t.equal(response.body, null);
+      t.equal(response.rawResponse, null);
+      t.equal(response.rejection, null);
     });
 
-    s.test("camelizes response body keys", t => {
-      let response = new Response({ body: { foo_bar: "baz" } });
+    s.test("converts body object to camelcase", t => {
+      let response = new Response({body: { foo_bar: 'baz' }});
 
-      t.same(response.body, {fooBar: "baz"});
+      t.same(response.body, { fooBar: 'baz' });
+    });
+  });
+
+  s.describe(".initial()", s => {
+    s.test("returns response in initial state", t => {
+      let response = Response.initial();
+      t.equal(response.state, Response.STATES.initial);
+    });
+  });
+
+  s.describe(".loading()", s => {
+    s.test("returns response in loading state", t => {
+      let response = Response.loading();
+      t.equal(response.state, Response.STATES.loading);
     });
   });
 
   s.describe(".fromFetchResponse()", s => {
-    function fetchResponse(opts) {
-      fetch.mock('/test-response', { response: opts });
-      return fetch('/test-response');
-    }
+    s.test("resolves into success state", async t => {
+      let response = await Response.fromFetchResponse(await fetchResponse({ body: 'foobar' }));
 
-    s.test("parses response details", async t => {
-      let response = await fetchResponse();
-      let result = await Response.fromFetchResponse(response);
-
-      t.equal(result.success, true);
-      t.equal(result.body, '');
-      t.equal(result.status, 200);
-      t.equal(result.rawResponse, response);
-      t.equal(result.error, null);
+      t.equal(response.state, Response.STATES.success);
+      t.equal(response.body, 'foobar');
+      t.equal(response.rawResponse.status, 200);
     });
 
-    s.test("parses response JSON", async t => {
-      let result = await fetchResponse({ body: JSON.stringify({a: 1}) }).then(Response.fromFetchResponse);
-      t.same(result.body, {a: 1});
+
+    s.test("resolves into failed state", async t => {
+      let response = await Response.fromFetchResponse(await fetchResponse({ body: 'foobar', status: 404 }));
+
+      t.equal(response.state, Response.STATES.failed);
+      t.equal(response.body, 'foobar');
+      t.equal(response.rawResponse.status, 404);
     });
 
-    s.test("parses non-200 responses", async t => {
-      let result = await fetchResponse({ status: 404 }).then(Response.fromFetchResponse);
+    s.test("parses json body", async t => {
+      let body = JSON.stringify({foo: 'bar'});
+      let response = await Response.fromFetchResponse(await fetchResponse({ body }));
 
-      t.equal(result.success, false);
-      t.equal(result.status, 404);
+      t.same(response.body, { foo: 'bar' });
     });
   });
 
-  s.describe(".fromError()", s => {
-    s.test("returns empty failed response", t => {
-      let result = Response.fromError('foobar');
+  s.describe("fromFetchRejection", s => {
+    s.test("returns rejected state", t => {
+      let response = Response.fromFetchRejection('foobar');
 
-      t.equal(result.success, false);
-      t.equal(result.body, null);
-      t.equal(result.status, null);
-      t.equal(result.rawResponse, null);
-      t.equal(result.error, 'foobar');
+      t.equal(response.state, Response.STATES.rejected);
+      t.equal(response.rejection, 'foobar');
+    });
+  });
+
+  s.describe("#isLoading", s => {
+    s.test("true if response is loading", t => {
+      t.equal(Response.loading().isLoading, true);
+    });
+
+    s.test("false if response is not loading", t => {
+      t.equal(Response.initial().isLoading, false);
+    });
+  });
+
+  s.describe("#isSuccess", s => {
+    s.test("true if response is success", async t => {
+      let response = await fetchResponse().then(Response.fromFetchResponse);
+      t.equal(response.isSuccess, true);
+    });
+
+    s.test("false if response is not success", t => {
+      t.equal(Response.loading().isSuccess, false);
+    });
+  });
+
+  s.describe("#isErrored", s => {
+    s.test("true if response is rejected", t => {
+      let response = Response.fromFetchRejection('foobar');
+      t.equal(response.isErrored, true);
+    });
+
+    s.test("true if response is failed", async t => {
+      let response = await fetchResponse({ status: 404 }).then(Response.fromFetchResponse);
+      t.equal(response.isErrored, true);
+    });
+
+    s.test("false if response neither rejected nor failed", t => {
+      t.equal(Response.loading().isErrored, false);
     });
   });
 
   s.describe("#errorMessage", s => {
-    s.test("return null if response is successful", t => {
-      let response = new Response({success: true});
-      t.equal(response.errorMessage, null);
+    s.test("returns null if response has no errors", t => {
+      t.equal(Response.loading().errorMessage, null);
     });
 
-    s.test("returns server error message", t => {
-      let body = fixtures.errors.flowError({ message: 'foobartest' });
-      let response = new Response({success: false, body});
-      t.equal(response.errorMessage, 'foobartest');
+    s.test("returns server error message", async t => {
+      let body = flowError({message: 'foobarerror'});
+      let response = await fetchResponse({ body, status: 422 }).then(Response.fromFetchResponse);
+      t.equal(response.errorMessage, 'foobarerror');
     });
 
-    s.test("returns default error message if response body has no error message", t => {
-      let response = new Response({success: false, body: {}, status: 404});
+    s.test("returns default message if server error message is missing", async t => {
+      let response = await fetchResponse({ status: 404 }).then(Response.fromFetchResponse);
       t.match(response.errorMessage, /404/);
     });
 
-    s.test("returns error message", t => {
-      let response = new Response({success: false, error: new Error('foobartest')});
-      t.match(response.errorMessage, /foobartest/);
+    s.test("returns rejection message if response is rejected", t => {
+      let response = Response.fromFetchRejection(new Error('errorbar'));
+      t.match(response.errorMessage, /errorbar/);
     });
   });
 
   s.describe("#errorDetails", s => {
-    s.test("returns empty object if response has no errors", t => {
-      let response = new Response({success: true});
+    s.test("returns server error details", async t => {
+      let body = flowError({details: { foo: 'bar' }});
+      let response = await fetchResponse({ body, status: 422 }).then(Response.fromFetchResponse);
+      t.same(response.errorDetails, { foo: 'bar' });
+    });
+
+    s.test("returns empty object if response is not failed", async t => {
+      let body = flowError({details: { foo: 'bar' }});
+      let response = await fetchResponse({ body, status: 200 }).then(Response.fromFetchResponse);
       t.same(response.errorDetails, {});
     });
 
-    s.test("returns error details", t => {
-      let body = fixtures.errors.flowError({ details: { email: 'required' } });
-      let response = new Response({success: false, body});
-      t.same(response.errorDetails, { email: 'required' });
+    s.test("returns empty object if response has no server error", async t => {
+      let response = await fetchResponse({ status: 404 }).then(Response.fromFetchResponse);
+      t.same(response.errorDetails, {});
     });
   });
 });

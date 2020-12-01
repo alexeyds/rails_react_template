@@ -2,16 +2,16 @@ import React from "react";
 import resources from "remote/resources";
 import GuestLayout from "layouts/guest_layout";
 import { useForm } from 'react-hook-form';
-import { useRemoteLoader } from "remote_loader";
-import { LoadingButton } from "remote_loader/components";
+import { useResponse } from "remote/response";
+import { LoadingButton } from "remote/response/components";
 import { updateSessionFromCookie } from "current_session/session_store";
 
 export default function LoginPage() {
   let { register, handleSubmit } = useForm();
-  let [remoteLoader, loadRemote] = useRemoteLoader(resources.sessions.create);
+  let [response, createSession] = useResponse(resources.sessions.create);
 
   let onSubmit = (data) => {
-    loadRemote(data).then(() => updateSessionFromCookie());
+    createSession(data).then(() => updateSessionFromCookie());
   };
 
   return (
@@ -21,7 +21,7 @@ export default function LoginPage() {
           <div className="column is-4">
             <div className="box login-box">
               <h2 className="title mb-5">Rails-React Template</h2>
-              <span className='has-text-danger'>{remoteLoader.response?.errorMessage}</span>
+              <span className='has-text-danger'>{response.errorMessage}</span>
               <form onSubmit={handleSubmit(onSubmit)} test-id='login-form'>
                 <div className="field">
                   <div className="control has-icons-right">
@@ -37,7 +37,7 @@ export default function LoginPage() {
                   </div>
                 </div>
 
-                <LoadingButton remoteLoader={remoteLoader} className="button is-block is-info is-medium is-fullwidth" type="submit">
+                <LoadingButton response={response} className="button is-block is-info is-medium is-fullwidth" type="submit">
                   <span>Log In</span>
                   <span className="icon is-small"> <i className="fas fa-key"></i></span>
                 </LoadingButton>

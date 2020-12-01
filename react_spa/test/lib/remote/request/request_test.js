@@ -4,14 +4,11 @@ import { signIn, currentSession } from "test/support/session";
 import SessionCookie from "current_session/session_cookie";
 
 jutest("request()", s => {
-  s.test("fetches endpoint and parses JSON response", async t => {
-    fetch.mock('/test-remote', { 
-      response: { body: JSON.stringify({ hi: 'hello' }) }
-    });
-    let result = await request('/test-remote');
+  s.test("fetches endpoint", async t => {
+    fetch.mock('/test-remote');
+    let response = await request('/test-remote');
 
-    t.equal(result.success, true);
-    t.same(result.body, { hi: 'hello' });
+    t.equal(response.status, 200);
   });
 
   s.test("updates current session if response status is not ok", async t => {
@@ -30,6 +27,6 @@ jutest("request()", s => {
     });
     let result = await request.post('/test-remote', { body: { foo: 'bar' } });
 
-    t.equal(result.success, true);
+    t.equal(result.status, 200);
   });
 });
