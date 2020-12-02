@@ -9,8 +9,8 @@ export default function useResponse(request) {
   let doRequest = useCallback(function() {
     setResponse(Response.loading());
 
-    // TODO: Remo this when fetcherino can handle synchronous mock validation
-    let handleRejection = config.env.isTest ? undefined : Response.fromFetchRejection;
+    // TODO: Remove this when fetcherino can handle synchronous mock validation
+    let handleRejection = config.env.isTest ? undefined : Response.rejected;
 
     return request(...arguments).then(Response.fromFetchResponse, handleRejection).then(setResponse);
   }, [setResponse, request]);

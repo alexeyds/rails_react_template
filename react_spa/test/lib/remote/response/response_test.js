@@ -43,6 +43,15 @@ jutest("Response", s => {
     });
   });
 
+  s.describe(".rejected()", s => {
+    s.test("returns rejected state", t => {
+      let response = Response.rejected('foobar');
+
+      t.equal(response.state, Response.STATES.rejected);
+      t.equal(response.rejection, 'foobar');
+    });
+  });
+
   s.describe(".fromFetchResponse()", s => {
     s.test("resolves into success state", async t => {
       let response = await Response.fromFetchResponse(await fetchResponse({ body: 'foobar' }));
@@ -69,15 +78,6 @@ jutest("Response", s => {
     });
   });
 
-  s.describe("fromFetchRejection", s => {
-    s.test("returns rejected state", t => {
-      let response = Response.fromFetchRejection('foobar');
-
-      t.equal(response.state, Response.STATES.rejected);
-      t.equal(response.rejection, 'foobar');
-    });
-  });
-
   s.describe("#isLoading", s => {
     s.test("true if response is loading", t => {
       t.equal(Response.loading().isLoading, true);
@@ -101,7 +101,7 @@ jutest("Response", s => {
 
   s.describe("#isErrored", s => {
     s.test("true if response is rejected", t => {
-      let response = Response.fromFetchRejection('foobar');
+      let response = Response.rejected('foobar');
       t.equal(response.isErrored, true);
     });
 
@@ -132,7 +132,7 @@ jutest("Response", s => {
     });
 
     s.test("returns rejection message if response is rejected", t => {
-      let response = Response.fromFetchRejection(new Error('errorbar'));
+      let response = Response.rejected(new Error('errorbar'));
       t.match(response.errorMessage, /errorbar/);
     });
   });

@@ -18,15 +18,15 @@ export default class Response {
     return new Response({ state: STATES.loading });
   }
 
+  static rejected(rejection) {
+    return new Response({ state: Response.STATES.rejected, rejection });
+  }
+
   static async fromFetchResponse(rawResponse) {
     let parsedBody = await rawResponse.text().then(safeParseJSON);
     let state = rawResponse.ok ? STATES.success : STATES.failed;
 
     return new Response({ state, rawResponse, body: parsedBody.value });
-  }
-
-  static fromFetchRejection(rejection) {
-    return new Response({ state: Response.STATES.rejected, rejection });
   }
 
   constructor({state, body=null, rawResponse=null, rejection=null}) {
