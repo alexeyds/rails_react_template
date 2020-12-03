@@ -2,7 +2,7 @@ module.exports = function(api) {
   api.cache.using(isBrowser);
 
   let presets = ["@babel/preset-react"];
-  let plugins = [moduleResolverPlugin()];
+  let plugins = [moduleResolverPlugin(), '@babel/plugin-proposal-class-properties'];
 
   if (isBrowser()) {
     presets.push(envPresetForBrowser());

@@ -1,6 +1,6 @@
 import expect from "remote_expectations/expect";
 import fixtures from 'remote_expectations/fixtures';
-import routes from 'remote/routes';
+import routes from 'remote/resources/routes';
 
 let { apiVersion } = fixtures.helloWorld;
 

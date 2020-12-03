@@ -1,14 +1,13 @@
 import React from "react";
-import resources from "remote/resources";
 import GuestLayout from "layouts/guest_layout";
 import { useForm } from 'react-hook-form';
-import { useResponse } from "remote/response";
-import { LoadingButton } from "remote/response/components";
+import { useRemote, resources } from "remote";
+import { LoadingButton } from "remote/components";
 import { updateSessionFromCookie } from "current_session/session_store";
 
 export default function LoginPage() {
   let { register, handleSubmit } = useForm();
-  let [response, createSession] = useResponse(resources.sessions.create);
+  let [remote, createSession] = useRemote(resources.sessions.create);
 
   let onSubmit = (data) => {
     createSession(data).then(() => updateSessionFromCookie());
@@ -21,7 +20,7 @@ export default function LoginPage() {
           <div className="column is-4">
             <div className="box login-box">
               <h2 className="title mb-5">Rails-React Template</h2>
-              <span className='has-text-danger'>{response.errorMessage}</span>
+              <span className='has-text-danger'>{remote.error && remote.error.message}</span>
               <form onSubmit={handleSubmit(onSubmit)} test-id='login-form'>
                 <div className="field">
                   <div className="control has-icons-right">
@@ -37,7 +36,7 @@ export default function LoginPage() {
                   </div>
                 </div>
 
-                <LoadingButton response={response} className="button is-block is-info is-medium is-fullwidth" type="submit">
+                <LoadingButton remote={remote} className="button is-block is-info is-medium is-fullwidth" type="submit">
                   <span>Log In</span>
                   <span className="icon is-small"> <i className="fas fa-key"></i></span>
                 </LoadingButton>

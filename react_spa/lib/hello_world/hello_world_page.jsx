@@ -1,21 +1,20 @@
 import React, { useEffect } from "react";
-import { useResponse } from "remote/response";
-import resources from "remote/resources";
+import { useRemote, resources } from "remote";
 
 export default function HelloWorldPage() {
-  let [response, doRequest] = useResponse(resources.helloWorld.getApiVersion);
+  let [remote, doRequest] = useRemote(resources.helloWorld.getApiVersion);
   useEffect(() => doRequest(), [doRequest]);
 
   return (
     <div style={{textAlign: 'center'}}>
-      <ResponseDetails response={response}/>
+      <ResponseDetails remote={remote}/>
     </div>
   );
 }
 
-function ResponseDetails({response}) {
-  if (response.isSuccess) {
-    let responseBody = response.body;
+function ResponseDetails({remote}) {
+  if (remote.response) {
+    let responseBody = remote.response.body;
 
     return (
       <div>

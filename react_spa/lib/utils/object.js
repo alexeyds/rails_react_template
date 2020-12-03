@@ -31,3 +31,10 @@ function maybeMapKeys(value, mapper) {
     return value;
   }
 }
+
+export function fromFlatArray(array) {
+  return array.reduce((result, item) => {
+    result[item] = item;
+    return result;
+  }, {});
+}

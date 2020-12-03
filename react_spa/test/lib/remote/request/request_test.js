@@ -4,10 +4,12 @@ import { signIn, currentSession } from "test/support/session";
 import SessionCookie from "current_session/session_cookie";
 
 jutest("request()", s => {
-  s.test("fetches endpoint", async t => {
+  s.test("fetches endpoint and parses response", async t => {
     fetch.mock('/test-remote');
     let response = await request('/test-remote');
 
+    t.equal(response.success, true);
+    t.equal(response.body, '');
     t.equal(response.status, 200);
   });
 

@@ -1,5 +1,5 @@
 import expect from "remote_expectations/expect";
-import routes from 'remote/routes';
+import routes from 'remote/resources/routes';
 import SessionCookie from "current_session/session_cookie";
 import fixtures from 'remote_expectations/fixtures';
 

@@ -1,11 +1,14 @@
 import fetchJSON from "./fetch_json";
+import parseResponse from "./parse_response";
 import { updateSessionFromCookie } from "current_session/session_store";
 
 export default function request() {
-  return fetchJSON(...arguments).then(r => {
-    if (!r.ok) updateSessionFromCookie();
-    return r;
-  });
+  return fetchJSON(...arguments).then(parseResponse).then(maybeUpdateSession);
+}
+
+function maybeUpdateSession(response) {
+  if (!response.success) updateSessionFromCookie();
+  return response;
 }
 
 ['get', 'post', 'patch', 'put', 'delete'].forEach(method => {
