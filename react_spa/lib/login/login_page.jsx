@@ -2,7 +2,7 @@ import React from "react";
 import GuestLayout from "layouts/guest_layout";
 import { useForm } from 'react-hook-form';
 import { useRemote, resources } from "remote";
-import { LoadingButton } from "remote/components";
+import { LoadingButton, ErrorMessage } from "remote/components";
 import { updateSessionFromCookie } from "current_session/session_store";
 
 export default function LoginPage() {
@@ -16,11 +16,11 @@ export default function LoginPage() {
   return (
     <GuestLayout>
       <div className="container" test-id="login-page">
-        <div className="columns is-centered has-text-centered">
+        <div className="columns is-centered">
           <div className="column is-4">
             <div className="box login-box">
-              <h2 className="title mb-5">Rails-React Template</h2>
-              <span className='has-text-danger'>{remote.error && remote.error.message}</span>
+              <h2 className="title mb-5 has-text-centered">Rails-React Template</h2>
+              <ErrorMessage remote={remote}/>
               <form onSubmit={handleSubmit(onSubmit)} test-id='login-form'>
                 <div className="field">
                   <div className="control has-icons-right">
@@ -43,7 +43,7 @@ export default function LoginPage() {
               </form>
             </div>
 
-            <p className="has-text-link-white">
+            <p className="has-text-link-white has-text-centered">
               <a className="is-white">Forgot password?</a> 
             </p>
           </div>

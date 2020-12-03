@@ -33,5 +33,6 @@ export default class Remote {
     this.state = state;
     this.response = response;
     this.error = error;
+    this.success = state === Remote.STATES.success;
   }
 }

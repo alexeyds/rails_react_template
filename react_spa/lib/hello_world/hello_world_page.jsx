@@ -13,7 +13,7 @@ export default function HelloWorldPage() {
 }
 
 function ResponseDetails({remote}) {
-  if (remote.response) {
+  if (remote.success) {
     let responseBody = remote.response.body;
 
     return (

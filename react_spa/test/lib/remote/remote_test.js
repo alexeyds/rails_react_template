@@ -50,6 +50,7 @@ jutest("Remote", s => {
 
       t.equal(remote.response.body, 'test');
       t.equal(remote.error, null);
+      t.equal(remote.success, true);
       t.equal(remote.state, Remote.STATES.success);
     });
 
@@ -59,6 +60,7 @@ jutest("Remote", s => {
 
       t.assert(error.message);
       t.assert(error.details);
+      t.equal(remote.success, false);
       t.equal(remote.response.status, 422);
       t.equal(remote.state, Remote.STATES.failed);
     });
