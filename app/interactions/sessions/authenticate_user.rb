@@ -5,7 +5,7 @@ module Sessions
     include InteractionErrors
 
     def call(params)
-      user = yield find_user(params)
+      user = yield validate_user_exists(find_user(params))
       yield validate_password(params, user: user)
 
       Success(user)
@@ -20,16 +20,26 @@ module Sessions
       Success(user)
     end
 
+    def validate_user_exists(find_result)
+      if find_result.success?
+        find_result
+      else
+        Failure(error(:user_not_found))
+      end
+    end
+
     def validate_password(params, user:)
       if user.authenticate(params[:password])
         Success(true)
       else
-        error = InteractionErrors.validation_error(
-          message: I18n.t(:invalid_password, scope: 'sessions.error_messages'),
-          details: { password: :invalid }
-        )
-        Failure(error)
+        Failure(error(:invalid_password))
       end
+    end
+
+    def error(type)
+      InteractionErrors.flow_error(
+        message: I18n.t(type, scope: 'sessions.error_messages')
+      )
     end
   end
 end
