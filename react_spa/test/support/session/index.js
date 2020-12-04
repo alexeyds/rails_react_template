@@ -1,9 +1,9 @@
 import SessionCookie from "current_session/session_cookie";
-import { fixtures } from "remote_expectations";
+import expectations from "test/support/remote/expectations";
 import { sessionStore, updateSessionFromCookie } from "current_session/session_store";
 
 export function signIn() {
-  SessionCookie.set(JSON.stringify(fixtures.sessions.session()));
+  SessionCookie.set(JSON.stringify(expectations.sessions.sessionFixture()));
   updateSessionFromCookie();
 }
 

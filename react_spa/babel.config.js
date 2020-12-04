@@ -30,8 +30,7 @@ function moduleResolverPlugin() {
       "alias": {
         "test": "./test",
         "styles": "./styles",
-        "images": "./images",
-        "remote_expectations": "./test/support/remote_expectations"
+        "images": "./images"
       }
     }
   ];

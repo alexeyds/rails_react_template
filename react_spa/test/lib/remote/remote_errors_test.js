@@ -1,6 +1,6 @@
 import jutest from "test/browser_jutest";
 import request from "remote/request";
-import { fixtures } from "remote_expectations";
+import expectations from "test/support/remote/expectations";
 import RemoteError from "remote/remote_error";
 
 jutest("RemoteError", s => {
@@ -27,7 +27,7 @@ jutest("RemoteError", s => {
     });
 
     s.test("extracts server errors", async t => {
-      let body = fixtures.errors.flowError({message: 'foobar', details: { foo: 'bar' }});
+      let body = expectations.errors.flowError({message: 'foobar', details: { foo: 'bar' }});
       let error = await fetchResponse({ body: JSON.stringify(body) }).then(RemoteError.fromResponse);
 
       t.equal(error.message, 'foobar');

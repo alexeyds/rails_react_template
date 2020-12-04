@@ -1,6 +1,6 @@
 import jutest from "test/browser_jutest";
 import React from "react";
-import { expectations } from "remote_expectations";
+import expectations from "test/support/remote/expectations";
 import { render, fireEvent } from "test/support/react_renderer";
 import { signIn, currentSession } from "test/support/session";
 import ApplicationEnv, { currentPath, routes } from "test/support/application_env";

@@ -1,3 +1,11 @@
+import expect from "test/support/remote/expect";
+
+export function expectFlowError(path, error=flowError()) {
+  expect(path, { 
+    response: { body: error, status: 422 }
+  });
+}
+
 export function flowError({message='Something went wrong.', details={}}={}) {
   return {
     error: {
