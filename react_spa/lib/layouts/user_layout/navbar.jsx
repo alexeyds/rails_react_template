@@ -7,7 +7,7 @@ import { updateSessionFromCookie } from "current_session/session_store";
 
 export default function Navbar() {
   let logout = () => {
-    resources.sessions.destroy().then(() => updateSessionFromCookie());
+    resources.sessions.logout().then(() => updateSessionFromCookie());
   };
 
   return (

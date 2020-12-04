@@ -7,7 +7,7 @@ import { updateSessionFromCookie } from "current_session/session_store";
 
 export default function LoginPage() {
   let { register, handleSubmit } = useForm();
-  let [remote, createSession] = useRemote(resources.sessions.create);
+  let [remote, createSession] = useRemote(resources.sessions.login);
 
   let onSubmit = (data) => {
     createSession(data).then(() => updateSessionFromCookie());

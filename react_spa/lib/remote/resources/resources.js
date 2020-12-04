@@ -7,7 +7,7 @@ export default {
   },
 
   sessions: {
-    destroy: () => request.delete(routes.sessionsPath()),
-    create: body => request.post(routes.sessionsPath(), { body })
+    logout: () => request.delete(routes.sessionsPath()),
+    login: body => request.post(routes.sessionsPath(), { body })
   }
 };
