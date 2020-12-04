@@ -1,6 +1,6 @@
 import jutest from "test/browser_jutest";
 import SessionCookie from "current_session/session_cookie";
-import { signIn } from "test/support/session";
+import { signIn } from "test/support/application";
 import { sessionStore, updateSessionFromCookie } from "current_session/session_store";
 
 jutest("sessionStore", s => {
@@ -26,13 +26,6 @@ jutest("sessionStore", s => {
       let newState = sessionStore.getState();
 
       t.equal(oldState, newState);
-    });
-  });
-
-  s.describe("test setup", s => {
-    SessionCookie.set(JSON.stringify({ a: 1 }));
-    s.test("resets store state before each state", t => {
-      t.same(sessionStore.getState(), null);
     });
   });
 
