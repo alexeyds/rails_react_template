@@ -1,5 +1,5 @@
 import jutest from "jutest";
-import { updateSessionFromCookie } from "current_session/session_store";
+import { updateSessionFromCookie } from "sessions/session_store";
 import { cleanup as unmountRenderedHooks } from 'test/support/hooks_renderer';
 import { cleanup as unmountRenderedComponents } from "test/support/react_renderer";
 

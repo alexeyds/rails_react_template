@@ -3,7 +3,7 @@ import logo from "images/react_logo.png";
 import { Link } from "react-router-dom";
 import routes from "application/routes";
 import resources from "remote/resources";
-import { updateSessionFromCookie } from "current_session/session_store";
+import { updateSessionFromCookie } from "sessions/session_store";
 
 export default function Navbar() {
   let logout = () => {

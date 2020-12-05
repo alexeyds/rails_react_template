@@ -3,7 +3,7 @@ import GuestLayout from "layouts/guest_layout";
 import { useForm } from 'react-hook-form';
 import { useRemote, resources } from "remote";
 import { LoadingButton, ErrorMessage } from "remote/components";
-import { updateSessionFromCookie } from "current_session/session_store";
+import { updateSessionFromCookie } from "sessions/session_store";
 
 export default function LoginPage() {
   let { register, handleSubmit } = useForm();

@@ -1,6 +1,6 @@
 import expect from "test/support/remote/expect";
 import { flowError } from "test/support/remote/expectations/errors";
-import SessionCookie from "current_session/session_cookie";
+import SessionCookie from "sessions/session_cookie";
 import routes from 'remote/resources/routes';
 
 export function expectLogout() {

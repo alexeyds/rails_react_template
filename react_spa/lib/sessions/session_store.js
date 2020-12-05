@@ -1,5 +1,5 @@
 import { isDeepEqual } from "utils/object";
-import SessionCookie from "current_session/session_cookie";
+import SessionCookie from "sessions/session_cookie";
 import { createStore, createEvent } from 'effector';
 
 let updateSessionFromCookie = createEvent('updateSessionFromCookie');

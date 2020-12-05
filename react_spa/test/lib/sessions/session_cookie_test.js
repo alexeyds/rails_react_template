@@ -1,5 +1,5 @@
 import jutest from "test/browser_jutest";
-import SessionCookie from "current_session/session_cookie";
+import SessionCookie from "sessions/session_cookie";
 
 jutest("SessionCookie", s => {
   s.describe(".extract()", s => {

@@ -1,7 +1,7 @@
 import jutest from "test/browser_jutest";
 import request from "remote/request";
 import { signIn, currentSession } from "test/support/application";
-import SessionCookie from "current_session/session_cookie";
+import SessionCookie from "sessions/session_cookie";
 
 jutest("request()", s => {
   s.test("fetches endpoint and parses response", async t => {

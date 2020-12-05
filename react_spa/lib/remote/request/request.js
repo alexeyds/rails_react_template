@@ -1,6 +1,6 @@
 import fetchJSON from "./fetch_json";
 import parseResponse from "./parse_response";
-import { updateSessionFromCookie } from "current_session/session_store";
+import { updateSessionFromCookie } from "sessions/session_store";
 
 export default function request() {
   return fetchJSON(...arguments).then(parseResponse).then(maybeUpdateSession);

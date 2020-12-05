@@ -4,7 +4,7 @@ import Navbar from "./navbar";
 import Sidebar from "./sidebar";
 import { Redirect } from "react-router";
 import { useStore } from "effector-react";
-import { sessionStore } from "current_session/session_store";
+import { sessionStore } from "sessions/session_store";
 
 export default function UserLayout({children}) {
   let session = useStore(sessionStore);

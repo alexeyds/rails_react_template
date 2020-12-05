@@ -1,7 +1,7 @@
 import jutest from "test/browser_jutest";
-import SessionCookie from "current_session/session_cookie";
 import { signIn } from "test/support/application";
-import { sessionStore, updateSessionFromCookie } from "current_session/session_store";
+import SessionCookie from "sessions/session_cookie";
+import { sessionStore, updateSessionFromCookie } from "sessions/session_store";
 
 jutest("sessionStore", s => {
   s.describe(".getState()", s => {

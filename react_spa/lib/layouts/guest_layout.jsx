@@ -2,7 +2,7 @@ import React from "react";
 import routes from "application/routes";
 import { Redirect } from "react-router";
 import { useStore } from "effector-react";
-import { sessionStore } from "current_session/session_store";
+import { sessionStore } from "sessions/session_store";
 
 export default function GuestLayout({children}) {
   let session = useStore(sessionStore);
