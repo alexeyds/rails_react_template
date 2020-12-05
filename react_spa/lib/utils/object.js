@@ -38,3 +38,14 @@ export function fromFlatArray(array) {
     return result;
   }, {});
 }
+
+export function map(object, mapper) {
+  let result = [];
+
+  for (let key in object) {
+    let value = object[key];
+    result.push(mapper(key, value));
+  }
+
+  return result;
+}

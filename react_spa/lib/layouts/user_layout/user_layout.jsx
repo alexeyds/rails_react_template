@@ -6,7 +6,7 @@ import { Redirect } from "react-router";
 import { useStore } from "effector-react";
 import { sessionStore } from "sessions/session_store";
 
-export default function UserLayout({children}) {
+export default function UserLayout({children, activeSidebarSection}) {
   let session = useStore(sessionStore);
 
   if (session) {
@@ -15,7 +15,7 @@ export default function UserLayout({children}) {
         <Navbar/>
         <div className="columns is-gapless full-height-content">
           <div className="column is-narrow sidebar">
-            <Sidebar/>
+            <Sidebar activeSection={activeSidebarSection}/>
           </div>
           <div className="column">
             {children}

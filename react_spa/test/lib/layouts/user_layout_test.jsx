@@ -2,13 +2,13 @@ import jutest from "test/browser_jutest";
 import React from "react";
 import { render } from "test/support/react_renderer";
 import { TestRouter, currentPath, routes, signIn } from 'test/support/application';
-import UserLayout from "layouts/user_layout";
+import UserLayout, { sidebarSections } from "layouts/user_layout";
 
 jutest("UserLayout", s => {
-  function Layout({children, path}) {
+  function Layout({children, path, activeSidebarSection}) {
     return (
       <TestRouter path={path}>
-        <UserLayout>{children}</UserLayout>
+        <UserLayout activeSidebarSection={activeSidebarSection}>{children}</UserLayout>
       </TestRouter>
     );
   }
@@ -17,8 +17,24 @@ jutest("UserLayout", s => {
     s.setup(() => signIn());
 
     s.test("renders children", t => {
-      let result = render(<Layout><div test-id='foobar'/></Layout>);
-      t.assert(result.queryByTestId('foobar'));
+      let layout = render(<Layout><div test-id='foobar'/></Layout>);
+      t.assert(layout.queryByTestId('foobar'));
+    });
+
+    s.test("renders sidebar sections", t => {
+      let layout = render(<Layout/>);
+      let section = layout.queryByTestId(`sidebar-section-helloWorld`);
+
+      t.assert(sidebarSections.helloWorld);
+      t.assert(section);
+      t.doesNotMatch(section.className, /is-active/);
+    });
+
+    s.test("marks current section as active ", t => {
+      let layout = render(<Layout activeSidebarSection={sidebarSections.helloWorld}/>);
+      let section = layout.queryByTestId(`sidebar-section-helloWorld`);
+
+      t.match(section.className, /is-active/);
     });
   });
 

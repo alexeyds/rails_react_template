@@ -13,11 +13,21 @@
   }
 }
 
+@mixin active-sidebar-link {
+  color: c.$blue;
+  background-color: c.$white;
+  border-left-color: c.$blue;
+}
+
 .sidebar {
   background: c.$white-ter;
   padding: 10px;
   min-width: 200px;
   border-right: 1px solid #ccc;
+
+  li.is-active a {
+    @include active-sidebar-link;
+  }
 
   li {
     border-bottom: 1px solid c.$grey-light;
@@ -31,9 +41,7 @@
       font-size: 13px;
 
       &:hover {
-        color: c.$blue;
-        background-color: c.$white;
-        border-left-color: c.$blue;
+        @include active-sidebar-link;
       }
 
       i {
@@ -52,4 +60,8 @@
       }
     }
   }
+}
+
+.main-content {
+  padding: 20px 20px 0;
 }

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import UserLayout, { sidebarSections } from "layouts/user_layout";
 import { useRemote, resources } from "remote";
 
 export default function HelloWorldPage() {
@@ -6,9 +7,11 @@ export default function HelloWorldPage() {
   useEffect(() => doRequest(), [doRequest]);
 
   return (
-    <div style={{textAlign: 'center'}}>
-      <ResponseDetails remote={remote}/>
-    </div>
+    <UserLayout activeSidebarSection={sidebarSections.helloWorld}>
+      <div style={{textAlign: 'center'}}>
+        <ResponseDetails remote={remote}/>
+      </div>
+    </UserLayout>
   );
 }
 

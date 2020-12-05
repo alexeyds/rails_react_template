@@ -1,5 +1,5 @@
 import jutest from "jutest";
-import { isPlainObject, deepMapKeys, deepCamelizeKeys, isDeepEqual, dig, fromFlatArray } from "utils/object";
+import { isPlainObject, map, deepMapKeys, deepCamelizeKeys, isDeepEqual, dig, fromFlatArray } from "utils/object";
 
 jutest("utils/object", s => {
   s.describe("isPlainObject()", s => {
@@ -59,9 +59,16 @@ jutest("utils/object", s => {
     });
   });
 
-  s.describe("fromFlatArray", s => {
+  s.describe("fromFlatArray()", s => {
     s.test("converts array to object", t => {
       t.same(fromFlatArray(['foo', 'bar']), { foo: 'foo', bar: 'bar' });
+    });
+  });
+
+  s.describe("map()", s => {
+    s.test("maps object to array", t => {
+      let result = map({a: 1}, (k, v) => `${k} ${v}`);
+      t.same(result, ['a 1']);
     });
   });
 });
