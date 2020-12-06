@@ -1,9 +1,13 @@
 class SessionSerializer < ApplicationSerializer
   def render(session)
-    {
-      user: render_user(session.user),
-      expires_at: session.expires_at
-    }
+    if session
+      {
+        user: render_user(session.user),
+        expires_at: session.expires_at
+      }
+    else
+      nil
+    end
   end
 
   private

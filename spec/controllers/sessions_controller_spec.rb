@@ -38,7 +38,6 @@ RSpec.describe SessionsController, type: :request do
       post path, params: { password: user.password, email: user.email }
 
       expect(cookies[:current_session]).to be_present
-      expect(JSON.parse(cookies[:current_session])).to eq(json_body['current_session'])
     end
 
     it 'actually signs user in' do
