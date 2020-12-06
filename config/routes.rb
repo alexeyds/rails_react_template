@@ -7,6 +7,8 @@ Rails.application.routes.draw do
         post :__testonly_sign_in if Rails.env.test?
       end
     end
+
+    get "*path", to: 'errors#not_found'
   end
 
   root to: 'react_spa#index'
