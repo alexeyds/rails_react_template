@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       resources :hello_world, only: [:index]
       resource :sessions, only: [:create, :destroy] do
         get :current
+        post :__testonly_sign_in if Rails.env.test?
       end
     end
   end

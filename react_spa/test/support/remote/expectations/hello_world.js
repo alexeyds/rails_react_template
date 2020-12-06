@@ -11,6 +11,7 @@ export function apiVersionFixture({version='v1', locale='en'}={}) {
   return {
     api_version: version,
     details: 'hello',
-    locale
+    locale,
+    user_email: 'foo@bar.com'
   };
 }

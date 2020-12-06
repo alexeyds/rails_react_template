@@ -31,6 +31,7 @@ function ResponseDetails({remote}) {
       <div>API version: <span test-id='api-version'>{responseBody.apiVersion}</span></div>
       <div>API locale: <span test-id='api-locale'>{responseBody.locale}</span></div>
       <div>Details: <span>{responseBody.details}</span></div>
+      <div>User: <span>{responseBody.userEmail}</span></div>
     </div>
   );
 }

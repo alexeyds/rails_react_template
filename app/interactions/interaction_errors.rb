@@ -1,5 +1,11 @@
 module InteractionErrors
-  Types = ConstantsDictionary.from_array([:flow_error, :validation_error])
+  Types = ConstantsDictionary.from_array([
+    :flow_error,
+    :validation_error,
+    :authentication_error,
+    :authorization_error,
+    :not_found_error
+  ])
 
   module_function
 
@@ -11,6 +17,12 @@ module InteractionErrors
 
   def flow_error(message:, details: {})
     interaction_error(message: message, details: details, type: Types.flow_error)
+  end
+
+  [Types.authentication_error, Types.authorization_error, Types.not_found_error].each do |error_type|
+    define_method(error_type) do
+      interaction_error(message: error_message(error_type), details: {}, type: error_type)
+    end
   end
 
   def interaction_error(message:, details:, type:)

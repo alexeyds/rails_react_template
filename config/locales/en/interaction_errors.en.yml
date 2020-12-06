@@ -2,6 +2,9 @@ en:
   interaction_errors:
     error_messages:
       invalid_request_data: Invalid request data.
+      authentication_error: 'User is not authenticated.'
+      authorization_error: 'User is not authorized to perform this action.'
+      not_found_error: 'Requested resource was not found.'
     validation_messages:
       missing: must be present
       not_found: not found
