@@ -9,6 +9,14 @@ module InteractionErrors
 
   module_function
 
+  def http_status(error)
+    {
+      Types.authentication_error => 401,
+      Types.authorization_error => 403,
+      Types.not_found_error => 404
+    }.fetch(error[:type], 422)
+  end
+
   def validation_error(message: error_message(:invalid_request_data), details:)
     details = details.map { |k, v| [k, validation_message(v)] }.to_h
 

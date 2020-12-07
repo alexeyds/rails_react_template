@@ -28,21 +28,6 @@ class ApplicationController < ActionController::API
   end
 
   def render_interaction_error(error)
-    render json: { error: error }, status: interaction_error_status(error)
-  end
-
-  def interaction_error_status(error)
-    types = InteractionErrors::Types
-
-    case error[:type]
-    when types.authentication_error
-      401
-    when types.not_found_error
-      404
-    when types.authorization_error
-      403
-    else
-      422
-    end
+    render json: { error: error }, status: InteractionErrors.http_status(error)
   end
 end

@@ -46,4 +46,16 @@ RSpec.describe InteractionErrors do
       end
     end
   end
+
+  describe '::http_status' do
+    it 'returns 422 by default' do
+      status = InteractionErrors.http_status(InteractionErrors.flow_error(message: 'foobar'))
+      expect(status).to eq(422)
+    end
+
+    it 'has custom statuses for specific errors' do
+      status = InteractionErrors.http_status(InteractionErrors.authorization_error)
+      expect(status).to eq(403)
+    end
+  end
 end
