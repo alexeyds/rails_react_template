@@ -2,9 +2,14 @@ class ApplicationController < ActionController::API
   include ActionController::Cookies
 
   def authenticate_user
-    unless current_session
-      Sessions::PublicSessionCookie.update(cookies, session: nil)
-      render_interaction_error(InteractionErrors.authentication_error)
+    result = Auth::AuthenticateUser.new.call(current_user)
+
+    if result.failure?
+      Sessions::PublicSessionCookie.update(cookies, session: nil) 
+      process_interaction_result(result)
+      false
+    else
+      true
     end
   end
 
