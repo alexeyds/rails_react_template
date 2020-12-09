@@ -9,35 +9,33 @@ jutest("useRemote()", s => {
     return request('/use-remote-test');
   }
 
-  function remoteHook(request) {
-    return renderHook(() => useRemote(request));
-  }
+  let remoteHook = request => renderHook(() => useRemote(request));
+
+  let getRemote    = hook => current(hook)[0];
+  let getDoRequest = hook => current(hook)[1];
 
   s.test("returns remote in initial state", t => {
-    let [remote, doRequest] = current(remoteHook(fetchResponse));
+    let hook = remoteHook(fetchResponse);
 
-    t.equal(remote.state, Remote.STATES.initial);
-    t.equal(typeof doRequest, 'function');
+    t.equal(getRemote(hook).state, Remote.STATES.initial);
+    t.equal(typeof getDoRequest(hook), 'function');
   });
 
   s.test("transforms remote to loading state on request", async t => {
     let response = await fetchResponse();
     let hook = remoteHook(() => Promise.resolve(response));
 
-    let [, doRequest] = current(hook);
-    doRequest();
-    let [remote] = current(hook);
+    getDoRequest(hook)();
 
-    t.equal(remote.state, Remote.STATES.loading);
+    t.equal(getRemote(hook).state, Remote.STATES.loading);
   });
 
   s.test("passes arguments to request function and processes response", async t => {
     let hook = remoteHook(fetchResponse);
 
-    let [, doRequest] = current(hook);
-    await doRequest({ body: 'hello' });
-    let [remote] = current(hook);
+    await getDoRequest(hook)({ body: 'hello' });
 
+    let remote = getRemote(hook);
     t.equal(remote.state, Remote.STATES.success);
     t.equal(remote.response.body, 'hello');
   });
@@ -45,21 +43,20 @@ jutest("useRemote()", s => {
   s.test("preserves request function identity", async t => {
     let hook = remoteHook(fetchResponse);
 
-    let [, oldDoRequest] = current(hook);
+    let oldDoRequest = getDoRequest(hook);
     await oldDoRequest();
-    let [, newDoRequest] = current(hook);
+    let newDoRequest = getDoRequest(hook);
 
     t.equal(oldDoRequest, newDoRequest);
   });
 
-  // TODO: enable this test when fetcherino can handle synchronous mock validation
+  // // TODO: enable this test when fetcherino can handle synchronous mock validation
   // s.test("processes rejections", async t => {
   //   let hook = remoteHook(() => Promise.reject(new Error('Network error')));
 
-  //   let [, doRequest] = current(hook);
-  //   await doRequest();
-  //   let [remote] = current(hook);
+  //   await getDoRequest(hook)();
 
+  //   let remote = getRemote(hook);
   //   t.equal(remote.state, Remote.STATES.failed);
   //   t.match(remote.error.message, /Network error/);
   // });
