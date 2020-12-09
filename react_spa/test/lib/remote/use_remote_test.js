@@ -9,13 +9,13 @@ jutest("useRemote()", s => {
     return request('/use-remote-test');
   }
 
-  let remoteHook = request => renderHook(() => useRemote(request));
+  let buildHook = request => renderHook(() => useRemote(request));
 
   let getRemote    = hook => current(hook)[0];
   let getDoRequest = hook => current(hook)[1];
 
   s.test("returns remote in initial state", t => {
-    let hook = remoteHook(fetchResponse);
+    let hook = buildHook(fetchResponse);
 
     t.equal(getRemote(hook).state, Remote.STATES.initial);
     t.equal(typeof getDoRequest(hook), 'function');
@@ -23,7 +23,7 @@ jutest("useRemote()", s => {
 
   s.test("transforms remote to loading state on request", async t => {
     let response = await fetchResponse();
-    let hook = remoteHook(() => Promise.resolve(response));
+    let hook = buildHook(() => Promise.resolve(response));
 
     getDoRequest(hook)();
 
@@ -31,7 +31,7 @@ jutest("useRemote()", s => {
   });
 
   s.test("passes arguments to request function and processes response", async t => {
-    let hook = remoteHook(fetchResponse);
+    let hook = buildHook(fetchResponse);
 
     await getDoRequest(hook)({ body: 'hello' });
 
@@ -41,7 +41,7 @@ jutest("useRemote()", s => {
   });
 
   s.test("preserves request function identity", async t => {
-    let hook = remoteHook(fetchResponse);
+    let hook = buildHook(fetchResponse);
 
     let oldDoRequest = getDoRequest(hook);
     await oldDoRequest();
@@ -52,7 +52,7 @@ jutest("useRemote()", s => {
 
   // // TODO: enable this test when fetcherino can handle synchronous mock validation
   // s.test("processes rejections", async t => {
-  //   let hook = remoteHook(() => Promise.reject(new Error('Network error')));
+  //   let hook = buildHook(() => Promise.reject(new Error('Network error')));
 
   //   await getDoRequest(hook)();
 
