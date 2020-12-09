@@ -1,7 +1,7 @@
 import jutest from "test/browser_jutest";
 import React from "react";
 import { render } from "test/support/react_renderer";
-import { TestRouter, currentPath, routes, signIn } from 'test/support/application';
+import { TestRouter, pendingRedirect, routes, signIn } from 'test/support/application';
 import UserLayout, { sidebarSections } from "layouts/user_layout";
 
 jutest("UserLayout", s => {
@@ -42,7 +42,7 @@ jutest("UserLayout", s => {
     s.test("redirects to login page", t => {
       let layout = render(<Layout><div test-id='foobar'/></Layout>);
 
-      t.equal(currentPath(layout), routes.loginPath());
+      t.equal(pendingRedirect(layout), routes.loginPath());
       t.refute(layout.queryByTestId('foobar'));
     });
   });

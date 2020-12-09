@@ -2,14 +2,12 @@ import jutest from "test/browser_jutest";
 import { fireEvent } from "test/support/react_renderer";
 import { sendForm } from "test/support/form_helpers";
 import expectations from "test/support/remote/expectations";
-import { currentSession, currentPath, renderAppAt, routes, signIn, nextTick } from "test/support/application";
+import { currentSession, pendingRedirect, renderAppAt, routes, signIn, nextTick } from "test/support/application";
 
 jutest("Session flow", s => {
   s.test("redirects unathorized users to login page", t => {
     let app = renderAppAt(routes.rootPath());
-
-    t.assert(app.queryByTestId("login-form"));
-    t.equal(currentPath(app), routes.loginPath());
+    t.equal(pendingRedirect(app), routes.loginPath());
   });
 
   s.test("renders logout link if user is signed in", async t => {
@@ -20,7 +18,7 @@ jutest("Session flow", s => {
     fireEvent.click(app.getByTestId('logout-link'));
     await nextTick();
 
-    t.assert(app.queryByTestId("login-form"));
+    t.equal(pendingRedirect(app), routes.loginPath());
     t.equal(currentSession(), null);
   });
 
@@ -38,7 +36,7 @@ jutest("Session flow", s => {
 
       await sendForm(loginForm, params);
 
-      t.equal(currentPath(app), routes.rootPath());
+      t.equal(pendingRedirect(app), routes.rootPath());
       t.notEqual(currentSession(), null);
     });
 
