@@ -8,7 +8,7 @@ module.exports = function(api) {
     presets.push(envPresetForBrowser());
     plugins.push(stripTestIdsPlugin());
   } else {
-    presets.push("@babel/preset-env");
+    presets.push(envPresetForNode());
     plugins.push(ignoreStylesPlugin());
     plugins.push(ignoreImagesPlugin());
   }
@@ -43,6 +43,17 @@ function envPresetForBrowser() {
       "useBuiltIns": "entry", 
       "debug": false,
       "corejs": 3
+    }
+  ];
+}
+
+function envPresetForNode() {
+  return [
+    "@babel/preset-env", 
+    {
+      targets: {
+        esmodules: true,
+      },
     }
   ];
 }
