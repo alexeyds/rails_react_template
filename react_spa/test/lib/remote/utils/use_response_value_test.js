@@ -1,5 +1,6 @@
 import jutest from "test/browser_jutest";
 import request from "remote/request";
+import expect from "test/support/remote/expect";
 import { useState } from "react";
 import { renderHook, current } from "test/support/hooks_renderer";
 import { Remote } from "remote";
@@ -11,32 +12,39 @@ jutest("useResponseValue()", s => {
   }
 
   function fetchResponse(response) {
-    fetch.mock('/use-response-value-test', { response });
+    expect('/use-response-value-test', { response });
     return request('/use-response-value-test');
   }
 
   s.test("returns {initial} value if remote is not loaded", t => {
     let remote = Remote.loading();
-    let hook = buildHook(remote, { initial: [], extract: () => {} });
+    let hook = buildHook(remote, { initial: [], key: 'items' });
 
     t.same(current(hook), []);
   });
 
-  s.test("passes response to {extract} function and returns result", async t => {
-    let remote = await fetchResponse({body: 'foobar'}).then(Remote.loaded);
-    let hook = buildHook(remote, { initial: 'baz', extract: (r) => r.body });
+  s.test("extracts {key} from response body", async t => {
+    let remote = await fetchResponse({body: { items: [1, 2] }}).then(Remote.loaded);
+    let hook = buildHook(remote, { initial: 'baz', key: 'items' });
 
-    t.equal(current(hook), 'foobar');
+    t.same(current(hook), [1, 2]);
   });
 
-  s.test("preserves previous value if remote changes state", async t => {
+  s.test("can dig for nested values", async t => {
+    let remote = await fetchResponse({body: { items: { main: 'foo' } }}).then(Remote.loaded);
+    let hook = buildHook(remote, { initial: 'baz', key: 'items.main' });
+
+    t.same(current(hook), 'foo');
+  });
+
+  s.test("preserves cached value between loads", async t => {
     let setRemote;
-    let remote = await fetchResponse({body: 'foobar'}).then(Remote.loaded);
+    let remote = await fetchResponse({body: { items: 'foobar' }}).then(Remote.loaded);
 
     let hook = renderHook(() => {
       let remoteState = useState(remote);
       setRemote = remoteState[1];
-      return useResponseValue(remoteState[0], { extract: r => r.body });
+      return useResponseValue(remoteState[0], { key: 'items' });
     });
 
     t.equal(current(hook), 'foobar');
