@@ -1,8 +1,0 @@
-@use "utils/colors" as c;
-
-@use "bulma/bulma" with (
-  $body-overflow-y: auto,
-  $input-placeholder-color: rgba(c.$grey-darker, 0.5)
-);
-
-@forward "bulma/bulma" show $navbar-height;

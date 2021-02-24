@@ -1,7 +1,4 @@
-@use "bulma";
+@use "bootstrap/scss/bootstrap";
 @use "font_awesome";
 
-@use "layouts/user_layout";
-@use "home_page/home_page";
-@use "login/login_page";
-@use "remote/components";
+@use "layouts";
