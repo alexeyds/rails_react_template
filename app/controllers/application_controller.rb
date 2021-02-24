@@ -5,7 +5,6 @@ class ApplicationController < ActionController::API
     result = Auth::AuthenticateUser.new.call(current_user)
 
     if result.failure?
-      Sessions::PublicSessionCookie.update(cookies, session: nil) 
       process_interaction_result(result)
       false
     else

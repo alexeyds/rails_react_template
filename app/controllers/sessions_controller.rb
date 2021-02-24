@@ -26,7 +26,6 @@ class SessionsController < ApplicationController
   private
 
   def render_session(session)
-    Sessions::PublicSessionCookie.update(cookies, session: session)
     render json: { current_session: SessionSerializer.render(session) }
   end
 end

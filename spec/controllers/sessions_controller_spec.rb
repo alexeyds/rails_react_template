@@ -34,12 +34,6 @@ RSpec.describe SessionsController, type: :request do
       expect(json_body['error']).to be_present
     end
 
-    it 'sets public cookie' do
-      post path, params: { password: user.password, email: user.email }
-
-      expect(cookies[:current_session]).to be_present
-    end
-
     it 'actually signs user in' do
       post path, params: { password: user.password, email: user.email }
       get current_session_path
@@ -52,15 +46,7 @@ RSpec.describe SessionsController, type: :request do
     let(:path) { '/api/v1/sessions' }
     let(:user) { create(:user) }
 
-    it 'renders nil and removes cookies' do
-      post path, params: { password: user.password, email: user.email }
-      delete path
-
-      expect(json_body['current_session']).to eq(nil)
-      expect(cookies[:current_session]).to be_blank
-    end
-
-    it 'actually signs user out' do
+    it 'signs user out' do
       post path, params: { password: user.password, email: user.email }
       delete path
       get current_session_path
