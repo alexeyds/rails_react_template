@@ -13,6 +13,6 @@ class SessionSerializer < ApplicationSerializer
   private
 
   def render_user(user)
-    user.slice(:id)
+    user.slice(:id, :email)
   end
 end
