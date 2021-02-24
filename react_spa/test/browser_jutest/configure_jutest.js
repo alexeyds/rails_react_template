@@ -1,13 +1,15 @@
 import jutest from "jutest";
-import { updateSessionFromCookie } from "sessions/session_store";
-import { cleanup as unmountRenderedHooks } from 'test/support/hooks_renderer';
-import { cleanup as unmountRenderedComponents } from "test/support/react_renderer";
+import nextTick from "support/next_tick";
+import { signOut } from "support/session";
+import { cleanup as unmountRenderedHooks } from 'support/hooks_renderer';
+import { cleanup as unmountRenderedComponents } from "support/react_renderer";
+
+global.nextTick = nextTick;
 
 jutest.teardown(async () => {
   localStorage.clear();
   sessionStorage.clear();
-  clearCookies();
-  updateSessionFromCookie();
+  signOut();
   await unmountRenderedComponents();
   await unmountRenderedHooks();
 });
@@ -15,19 +17,3 @@ jutest.teardown(async () => {
 jutest.beforeTestEnd(() => {
   fetch.validateAndResetMocks();
 });
-
-// From: https://stackoverflow.com/questions/179355/clearing-all-cookies-with-javascript
-function clearCookies() {
-  if (document.cookie === undefined) {
-    return;
-  }
-
-  var cookies = document.cookie.split(";");
-
-  for (var i = 0; i < cookies.length; i++) {
-    var cookie = cookies[i];
-    var eqPos = cookie.indexOf("=");
-    var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
-  }
-}

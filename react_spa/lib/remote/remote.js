@@ -1,38 +1,42 @@
+import { capitalize } from "utils/string";
 import { fromFlatArray } from "utils/object";
-import RemoteError from "remote/remote_error";
 
 export default class Remote {
-  static STATES = fromFlatArray([
-    'initial',
-    'loading',
-    'success',
-    'failed'
-  ]);
+  static STATES = fromFlatArray(['initial', 'loading', 'success', 'failure']);
 
-  static initial() {
-    return new Remote({state: Remote.STATES.initial});
+  static initialize() {
+    return new Remote({ state: Remote.STATES.initial });
   }
 
-  static loading() {
-    return new Remote({state: Remote.STATES.loading});
+  constructor({state, response=null, rejection=null, lastOkResponse=null}) {
+    this.state = state;
+    this.response = response;
+    this.rejection = rejection;
+    this.lastOkResponse = lastOkResponse;
   }
 
-  static rejected(rejection) {
-    return new Remote({state: Remote.STATES.failed, error: RemoteError.fromRejection(rejection)});
+  loading() {
+    return this._nextState(Remote.STATES.loading);
   }
 
-  static loaded(response) {
-    if (response.success) {
-      return new Remote({state: Remote.STATES.success, response});
+  rejected(rejection) {
+    return this._nextState(Remote.STATES.failure, { rejection });
+  }
+
+  loaded(response) {
+    if (response.ok) {
+      return this._nextState(Remote.STATES.success, { response, lastOkResponse: response });
     } else {
-      return new Remote({state: Remote.STATES.failed, response, error: RemoteError.fromResponse(response)});
+      return this._nextState(Remote.STATES.failure, { response });
     }
   }
 
-  constructor({state, response=null, error=null}) {
-    this.state = state;
-    this.response = response;
-    this.error = error;
-    this.success = state === Remote.STATES.success;
+  _nextState(state, opts) {
+    return new Remote({ state, lastOkResponse: this.lastOkResponse, ...opts });
   }
+}
+
+for (let stateName in Remote.STATES) {
+  let get = function() { return this.state == Remote.STATES[stateName]; };
+  Object.defineProperty(Remote.prototype, `is${capitalize(stateName)}`, { get });
 }

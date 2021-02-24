@@ -1,5 +1,4 @@
 import jutest from "test/browser_jutest";
-import { nextTick } from "test/support/application";
 import { setClearableTimeout } from "utils/timers";
 
 jutest("utils/timers", s => {
@@ -7,7 +6,7 @@ jutest("utils/timers", s => {
     s.test("behaves like setTimeout", async t => {
       let result;
       setClearableTimeout(() => result = 'done', 0);
-      await nextTick();
+      await global.nextTick();
 
       t.equal(result, 'done');
     });
@@ -16,7 +15,7 @@ jutest("utils/timers", s => {
       let result;
       let cleanup = setClearableTimeout(() => result = 'done', 0);
       cleanup();
-      await nextTick();
+      await global.nextTick();
 
       t.equal(result, undefined);
     });

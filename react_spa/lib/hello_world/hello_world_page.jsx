@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import UserLayout, { sidebarSections } from "layouts/user_layout";
-import { ErrorMessage } from "remote/components";
-import { useRemote, resources } from "remote";
+import resources from "api_client/resources";
+import useRemote from "remote/use_api_remote";
 
 export default function HelloWorldPage() {
   return (
@@ -12,13 +12,12 @@ export default function HelloWorldPage() {
 }
 
 function HelloWorldRequest() {
-  let [remote, doRequest] = useRemote(resources.helloWorld.getApiVersion);
+  let [remote, doRequest] = useRemote(resources.helloWorld.show);
   useEffect(() => doRequest(), [doRequest]);
 
   return (
     <div style={{textAlign: 'center'}}>
-      <ErrorMessage remote={remote}/>
-      {remote.success && <ResponseDetails remote={remote}/>}
+      {remote.isSuccess && <ResponseDetails remote={remote}/>}
     </div>
   );
 }
@@ -28,8 +27,8 @@ function ResponseDetails({remote}) {
 
   return (
     <div>
-      <div>API version: <span test-id='api-version'>{responseBody.apiVersion}</span></div>
-      <div>API locale: <span test-id='api-locale'>{responseBody.locale}</span></div>
+      <div>API version: <span>{responseBody.apiVersion}</span></div>
+      <div>API locale: <span>{responseBody.locale}</span></div>
       <div>Details: <span>{responseBody.details}</span></div>
       <div>User: <span>{responseBody.userEmail}</span></div>
     </div>

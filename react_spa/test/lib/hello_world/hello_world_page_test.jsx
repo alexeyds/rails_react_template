@@ -1,18 +1,22 @@
 import jutest from "test/browser_jutest";
-import expectations from "test/support/remote/expectations";
-import { signIn, renderAppAt, nextTick, routes } from "test/support/application";
+import { expectations } from "support/api";
+import { asyncRenderAppAt, routes } from "support/application";
+import { signIn } from "support/session";
 
 jutest("HelloWorldPage", s => {
+  s.setup(() => signIn());
+
   s.test("fetches api version", async t => {
-    signIn();
-    expectations.helloWorld.expectApiVersion(
-      expectations.helloWorld.apiVersionFixture({version: 'v3', locale: 'fr'}),
-    );
+    let { apiVersion, locale } = expectations.helloWorld.show();
 
-    let page = renderAppAt(routes.helloWorldPath());
-    await nextTick();
+    let page = await asyncRenderAppAt(routes.helloWorldPath());
 
-    t.equal(page.getByTestId('api-version').textContent, 'v3');
-    t.equal(page.getByTestId('api-locale').textContent, 'fr');
+    t.assert(page.getByText(apiVersion));
+    t.assert(page.getByText(locale));
+  });
+
+  s.test("handles response errors", async () => {
+    expectations.helloWorld.show.flowError();
+    await asyncRenderAppAt(routes.helloWorldPath());
   });
 });

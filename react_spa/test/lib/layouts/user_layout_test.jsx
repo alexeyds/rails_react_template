@@ -1,40 +1,25 @@
 import jutest from "test/browser_jutest";
 import React from "react";
-import { render } from "test/support/react_renderer";
-import { TestRouter, pendingRedirect, routes, signIn } from 'test/support/application';
-import UserLayout, { sidebarSections } from "layouts/user_layout";
+import { render, userEvent } from "support/react_renderer";
+import { expectations } from "support/api";
+import { signIn, currentSession } from "support/session";
+import TestRouter, { navigation, routes } from 'support/application/test_router';
+import UserLayout from "layouts/user_layout";
 
 jutest("UserLayout", s => {
-  function Layout({children, path, activeSidebarSection}) {
+  function Layout({children, path}) {
     return (
       <TestRouter path={path}>
-        <UserLayout activeSidebarSection={activeSidebarSection}>{children}</UserLayout>
+        <UserLayout>{children}</UserLayout>
       </TestRouter>
     );
   }
 
   s.describe("with signed in user", s => {
-    s.setup(() => signIn());
-
     s.test("renders children", t => {
+      signIn();
       let layout = render(<Layout><div test-id='foobar'/></Layout>);
       t.assert(layout.queryByTestId('foobar'));
-    });
-
-    s.test("renders sidebar sections", t => {
-      let layout = render(<Layout/>);
-      let section = layout.queryByTestId(`sidebar-section-helloWorld`);
-
-      t.assert(sidebarSections.helloWorld);
-      t.assert(section);
-      t.doesNotMatch(section.className, /is-active/);
-    });
-
-    s.test("marks current section as active ", t => {
-      let layout = render(<Layout activeSidebarSection={sidebarSections.helloWorld}/>);
-      let section = layout.queryByTestId(`sidebar-section-helloWorld`);
-
-      t.match(section.className, /is-active/);
     });
   });
 
@@ -42,8 +27,33 @@ jutest("UserLayout", s => {
     s.test("redirects to login page", t => {
       let layout = render(<Layout><div test-id='foobar'/></Layout>);
 
-      t.equal(pendingRedirect(layout), routes.loginPath());
+      t.equal(navigation.pendingRedirect(layout), routes.loginPath());
       t.refute(layout.queryByTestId('foobar'));
+    });
+  });
+
+  s.describe("logout link", s => {
+    s.setup(() => {
+      signIn();
+      let layout = render(<Layout/>);
+      return { layout };
+    });
+
+    s.test("logs user out", async (t, { layout }) => {
+      expectations.sessions.destroy();
+      userEvent.click(layout.getByTestId("logout-link"));
+      await global.nextTick();
+
+      t.refute(currentSession());
+      t.equal(navigation.pendingRedirect(layout), routes.loginPath());
+    });
+
+    s.test("handles error responses", async (t, { layout }) => {
+      expectations.sessions.destroy.flowError();
+      userEvent.click(layout.getByTestId("logout-link"));
+      await global.nextTick();
+
+      t.assert(currentSession());
     });
   });
 });

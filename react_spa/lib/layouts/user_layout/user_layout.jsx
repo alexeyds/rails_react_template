@@ -3,11 +3,10 @@ import routes from "application/routes";
 import Navbar from "./navbar";
 import Sidebar from "./sidebar";
 import { Redirect } from "react-router";
-import { useStore } from "effector-react";
-import { sessionStore } from "sessions/session_store";
+import { useSession } from "sessions/session_store";
 
 export default function UserLayout({children, activeSidebarSection}) {
-  let session = useStore(sessionStore);
+  let session = useSession();
 
   if (session) {
     return (

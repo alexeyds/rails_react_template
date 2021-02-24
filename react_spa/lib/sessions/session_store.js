@@ -1,14 +1,14 @@
-import { isDeepEqual } from "utils/object";
-import SessionCookie from "sessions/session_cookie";
-import { createStore, createEvent } from 'effector';
+import { storeObject, retrieveObject, remove } from "utils/local_storage";
+import create from 'zustand';
 
-let sessionStore = createStore(SessionCookie.extract());
+export const SESSION_STORAGE_KEY = '_l_pay_session';
 
-let updateSessionFromCookie = createEvent('updateSessionFromCookie');
+export let useSessionStore = create(set => ({
+  session: retrieveObject(SESSION_STORAGE_KEY),
+  setSession: (session) => set({ session: storeObject(SESSION_STORAGE_KEY, session) }),
+  clearSession: () => set({ session: remove(SESSION_STORAGE_KEY) })
+}));
 
-sessionStore.on(updateSessionFromCookie, (oldState) => {
-  let newState = SessionCookie.extract();
-  return isDeepEqual(newState, oldState) ? oldState : newState;
-});
-
-export { sessionStore, updateSessionFromCookie };
+export function useSession() {
+  return useSessionStore(s => s.session);
+}

@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import logo from "images/react_logo.png";
 import { Link } from "react-router-dom";
 import routes from "application/routes";
-import resources from "remote/resources";
-import { updateSessionFromCookie } from "sessions/session_store";
+import resources from "api_client/resources";
+import useRemote from "remote/use_api_remote";
+import { useSessionStore } from "sessions/session_store";
 
 export default function Navbar() {
-  let logout = () => {
-    resources.sessions.logout().then(() => updateSessionFromCookie());
-  };
+  let clearSession = useSessionStore(s => s.clearSession);
+  let [remote, logout] = useRemote(resources.sessions.destroy);
+
+  useEffect(() => {
+    if (remote.isSuccess) clearSession();
+  }, [remote, clearSession]);
 
   return (
     <nav className="navbar pr-5 is-dark">

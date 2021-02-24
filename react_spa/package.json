@@ -14,14 +14,12 @@
     "@fortawesome/fontawesome-free": "^5.15.2",
     "broutes": "^2.0.0",
     "bulma": "^0.9.2",
-    "effector": "^21.8.4",
-    "effector-react": "^21.2.1",
-    "js-cookie": "^2.2.1",
     "lodash": "^4.17.21",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-hook-form": "^6.15.4",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "zustand": "^3.3.2"
   },
   "devDependencies": {
     "@babel/core": "^7.13.1",
@@ -31,6 +29,7 @@
     "@babel/register": "^7.13.0",
     "@testing-library/react": "^11.2.5",
     "@testing-library/react-hooks": "^5.0.3",
+    "@testing-library/user-event": "^12.7.3",
     "babel-loader": "^8.2.2",
     "babel-plugin-module-resolver": "^4.1.0",
     "babel-plugin-react-remove-properties": "^0.3.0",
