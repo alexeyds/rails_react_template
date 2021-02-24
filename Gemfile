@@ -36,3 +36,4 @@ gem "figaro", "~> 1.2"
 gem 'bcrypt', '~> 3.1.7'
 
 gem 'dry-monads'
+gem 'dry-validation'
