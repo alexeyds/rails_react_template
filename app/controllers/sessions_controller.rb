@@ -1,29 +1,27 @@
 class SessionsController < ApplicationController
+  include SpecHelpers::RequestHelpers::SessionsControllerMethods if Rails.env.test?
+
   def current
     render_session(session_manager.current_session)
   end
 
-  def create
-    result = Sessions::AuthenticateUser.new.call(params)
-
-    process_interaction_result(result) do |user|
-      render_session(session_manager.create_session(user: user))
-    end
+  def password
+    render_session_result(Sessions::PasswordLogin.new.call(params))
   end
 
   def destroy
-    session_manager.destroy_session
+    session_manager.expire_current_session
     render_session(nil)
   end
 
-  def __testonly_sign_in
-    if Rails.env.test?
-      user = User.find(params[:user_id])
-      render_session(session_manager.create_session(user: user))
+  private
+
+  def render_session_result(result)
+    process_interaction_result(result) do |session|
+      session_manager.current_session = session
+      render_session(session)
     end
   end
-
-  private
 
   def render_session(session)
     render json: { current_session: SessionSerializer.render(session) }

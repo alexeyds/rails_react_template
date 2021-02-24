@@ -3,13 +3,7 @@ class ApplicationController < ActionController::API
 
   def authenticate_user
     result = Auth::AuthenticateUser.new.call(current_user)
-
-    if result.failure?
-      process_interaction_result(result)
-      false
-    else
-      true
-    end
+    process_interaction_result(result) { true }
   end
 
   def current_session
@@ -21,7 +15,7 @@ class ApplicationController < ActionController::API
   end
 
   def session_manager
-    Sessions::SessionManager.new(session)
+    Sessions::SessionManager.new(cookies_session: session)
   end
 
   def process_interaction_result(result)
@@ -32,6 +26,7 @@ class ApplicationController < ActionController::API
   end
 
   def render_interaction_error(error)
+    logger.info(error)
     render json: { error: error }, status: InteractionErrors.http_status(error)
   end
 end

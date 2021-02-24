@@ -1,18 +1,18 @@
 require 'rails_helper'
 
 RSpec.describe Sessions::SessionManager do
-  let(:cookies_session) { { session_id: '123' } }
-  let(:session_manager) { described_class.new(cookies_session) }
+  let(:cookies_session) { {} }
+  let(:session_manager) { described_class.new(cookies_session: cookies_session) }
   let(:user) { create(:user) }
+  let(:session) { create(:session) }
   let(:first_session) { Session.first }
 
   describe '#current_session' do
     it 'returns session' do
-      session_manager.create_session(user: user)
+      session_manager.current_session = session
       result = session_manager.current_session
 
-      expect(result).to be_present
-      expect(result).to eq(Session.first)
+      expect(result).to eq(session)
     end
 
     it 'returns nil if there is no session' do
@@ -20,50 +20,44 @@ RSpec.describe Sessions::SessionManager do
     end
 
     it 'returns nil if session is expired' do
-      session_manager.create_session(user: user)
-      first_session.update!(expires_at: 2.hours.ago)
-
+      session_manager.current_session = create(:session, :expired)
       expect(session_manager.current_session).to eq(nil)
     end
 
-    it 'returns nil if session expireation date is nil' do
-      session_manager.create_session(user: user)
-      first_session.update!(expires_at: nil)
-
+    it 'returns nil if session expiration date is nil' do
+      session_manager.current_session = create(:session, expires_at: nil)
       expect(session_manager.current_session).to eq(nil)
     end
   end
 
-  describe '#create_session' do
-    it 'creates session' do
-      result = session_manager.create_session(user: user)
+  describe '#current_session=' do
+    it 'sets session' do
+      session_manager.current_session = session
 
-      expect(Session.count).to eq(1)
-      expect(result).to eq(first_session)
-      expect(first_session.user_id).to eq(user.id)
-      expect(first_session.expires_at).to be_future
+      expect(session_manager.current_session).to eq(session)
+      expect(cookies_session).not_to be_empty
     end
 
-    it 'destroys previous session' do
-      session_manager.create_session(user: user)
-      previous_session = Session.first
-      session_manager.create_session(user: user)
+    it 'expires previous session' do
+      session_manager.current_session = session
+      new_session = create(:session)
+      session_manager.current_session = new_session
 
-      expect(Session.count).to eq(1)
-      expect { previous_session.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect(session.reload.expires_at).to eq(nil)
+      expect(session_manager.current_session).to eq(new_session)
     end
   end
 
-  describe '#destroy_session' do
+  describe '#expire_current_session' do
     it 'does nothing if there is no session' do
-      session_manager.destroy_session
+      session_manager.expire_current_session
     end
 
-    it 'destroys previous session' do
-      session_manager.create_session(user: user)
-      session_manager.destroy_session
+    it 'expires previous session' do
+      session_manager.current_session = session
+      session_manager.expire_current_session
 
-      expect(Session.count).to eq(0)
+      expect(session.reload.expires_at).to eq(nil)
       expect(session_manager.current_session).to eq(nil)
     end
   end

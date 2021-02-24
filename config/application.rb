@@ -43,6 +43,8 @@ module RailsReactTemplate
 
     config.middleware.use config.session_store, config.session_options
 
+    config.autoload_paths << Rails.root.join('support') if Rails.env.test?
+
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**/*.{rb,yml}')]
   end
 end

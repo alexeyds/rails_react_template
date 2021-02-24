@@ -1,7 +1,4 @@
 en:
   sessions:
-    error_messages:
-      not_authenticated: User is not authenticated.
-      session_expired: Session has expired.
-      user_not_found: User not found.
-      invalid_password: Invalid password.
+    errors:
+      invalid_login_or_password: Invalid login or password.

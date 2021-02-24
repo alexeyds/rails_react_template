@@ -1,6 +1,6 @@
 module Sessions
   class SessionManager
-    def initialize(cookies_session)
+    def initialize(cookies_session:)
       @cookies_session = cookies_session
     end
 
@@ -9,17 +9,15 @@ module Sessions
       session if session && !expired?(session)
     end
 
-    def create_session(user:)
-      destroy_session
-
-      session = Session.create!(user: user, expires_at: 2.weeks.from_now)
+    def current_session=(session)
+      expire_current_session
       @cookies_session[id_key] = session.id
-      session
     end
 
-    def destroy_session
-      session = Session.find_by(id: @cookies_session[id_key])
-      session && session.destroy
+    def expire_current_session
+      session = current_session
+      @cookies_session.delete(:id_key)
+      session && session.update!(expires_at: nil)
     end
 
     private

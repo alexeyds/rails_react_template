@@ -15,8 +15,8 @@ RSpec.describe SessionsController, type: :request do
     end
   end
 
-  describe 'POST /api/v1/sessions' do
-    let(:path) { '/api/v1/sessions' }
+  describe 'POST /api/v1/sessions/password' do
+    let(:path) { '/api/v1/sessions/password' }
     let(:user) { create(:user) }
 
     it 'returns session info' do
@@ -44,10 +44,9 @@ RSpec.describe SessionsController, type: :request do
 
   describe 'DESTROY /api/v1/sessions' do
     let(:path) { '/api/v1/sessions' }
-    let(:user) { create(:user) }
 
     it 'signs user out' do
-      post path, params: { password: user.password, email: user.email }
+      sign_in(create(:user))
       delete path
       get current_session_path
 
