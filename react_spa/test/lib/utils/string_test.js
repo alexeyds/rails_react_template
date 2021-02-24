@@ -1,5 +1,5 @@
 import jutest from "jutest";
-import { capitalize, camelize } from "utils/string";
+import { capitalize, camelize, snakeCase } from "utils/string";
 
 jutest("utils/string", (s) => {
   s.describe("capitalize()", (s) => {
@@ -14,6 +14,12 @@ jutest("utils/string", (s) => {
       t.equal(camelize('FooBar'), 'fooBar');
       t.equal(camelize('foo_bar'), 'fooBar');
       t.equal(camelize('foo-bar'), 'fooBar');
+    });
+  });
+
+  s.describe("snakeCase()", s => {
+    s.test("converts string to snake case", t => {
+      t.equal(snakeCase('fooBar'), 'foo_bar');
     });
   });
 });

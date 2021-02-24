@@ -1,12 +1,17 @@
-import { camelize } from "utils/string";
-import isPlainObject from "lodash.isplainobject";
+import { camelize, snakeCase } from "utils/string";
+import isPlainObject from "lodash/isPlainObject";
+import merge from "lodash/merge";
 
 export { isPlainObject };
-export { default as isDeepEqual } from "lodash.isequal";
-export { default as dig } from "lodash.get";
+export { default as isDeepEqual } from "lodash/isEqual";
+export { default as dig } from "lodash/get";
 
 export function deepCamelizeKeys(object) {
   return deepMapKeys(object, camelize);
+}
+
+export function deepSnakifyKeys(object) {
+  return deepMapKeys(object, snakeCase);
 }
 
 export function deepMapKeys(object, mapper) {
@@ -48,4 +53,8 @@ export function map(object, mapper) {
   }
 
   return result;
+}
+
+export function deepMerge(...objects) {
+  return merge({}, ...objects);
 }

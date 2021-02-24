@@ -1,5 +1,15 @@
 import jutest from "jutest";
-import { isPlainObject, map, deepMapKeys, deepCamelizeKeys, isDeepEqual, dig, fromFlatArray } from "utils/object";
+import { 
+  isPlainObject, 
+  map, 
+  deepMapKeys, 
+  deepCamelizeKeys, 
+  isDeepEqual, 
+  dig, 
+  fromFlatArray,
+  deepSnakifyKeys,
+  deepMerge
+} from "utils/object";
 
 jutest("utils/object", s => {
   s.describe("isPlainObject()", s => {
@@ -42,6 +52,13 @@ jutest("utils/object", s => {
     });
   });
 
+  s.describe("deepSnakifyKeys()", s => {
+    s.test("converts object keys to snake case", t => {
+      let result = deepSnakifyKeys({fooBar: { barBaz: 2 }});
+      t.same(result, {foo_bar: { bar_baz: 2 }});
+    });
+  });
+
   s.describe("isDeepEqual()", s => {
     s.test("checks if objects are deep equal", t => {
       t.equal(isDeepEqual({a: 1}, {a: 1}), true);
@@ -69,6 +86,21 @@ jutest("utils/object", s => {
     s.test("maps object to array", t => {
       let result = map({a: 1}, (k, v) => `${k} ${v}`);
       t.same(result, ['a 1']);
+    });
+  });
+
+  s.describe("deepMerge()", s => {
+    s.test("deep merges objects", t => {
+      let result = deepMerge({a: { b: 1, c : 2 }}, {a: { b: 4 }});
+      t.same(result, { a: { b: 4, c: 2 }});
+    });
+
+    s.test("does not mutate original object", t => {
+      let original = { a: 1 };
+      let result = deepMerge(original, {b: 2});
+
+      t.notEqual(original, result);
+      t.same(original, { a: 1 });
     });
   });
 });
