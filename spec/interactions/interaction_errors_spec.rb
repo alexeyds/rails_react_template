@@ -20,10 +20,10 @@ RSpec.describe InteractionErrors do
   end
 
   describe '::validation_error' do
-    it 'translates details' do
-      result = InteractionErrors.validation_error(details: {foo: :missing})
+    it 'sets details' do
+      result = InteractionErrors.validation_error(details: {foo: [:missing]})
 
-      expect(result[:details][:foo]).to be_present
+      expect(result[:details][:foo]).to eq([:missing])
       expect(result[:message]).to be_present
       expect(result[:type]).to eq(types.validation_error)
     end
@@ -35,7 +35,7 @@ RSpec.describe InteractionErrors do
     end
   end
 
-  [types.authentication_error, types.authorization_error, types.not_found_error].each do |error_type|
+  types.to_h.values_at(:authentication_error, :authentication_error, :not_found_error).each do |error_type|
     describe "::#{error_type}" do
       it 'composes error hash' do
         result = InteractionErrors.send(error_type)

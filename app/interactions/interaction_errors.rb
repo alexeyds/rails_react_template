@@ -17,9 +17,7 @@ module InteractionErrors
     }.fetch(error[:type], 422)
   end
 
-  def validation_error(message: error_message(:invalid_request_data), details:)
-    details = details.map { |k, v| [k, validation_message(v)] }.to_h
-
+  def validation_error(message: error_message(:validation_error), details:)
     interaction_error(message: message, details: details, type: Types.validation_error)
   end
 
@@ -27,9 +25,9 @@ module InteractionErrors
     interaction_error(message: message, details: details, type: Types.flow_error)
   end
 
-  [Types.authentication_error, Types.authorization_error, Types.not_found_error].each do |error_type|
-    define_method(error_type) do
-      interaction_error(message: error_message(error_type), details: {}, type: error_type)
+  [Types.authentication_error, Types.not_found_error, Types.authorization_error].each do |error_type|
+    define_method(error_type) do |message: error_message(error_type)|
+      interaction_error(message: message, details: {}, type: error_type)
     end
   end
 
@@ -39,9 +37,5 @@ module InteractionErrors
 
   def error_message(slug)
     I18n.t(slug, scope: 'interaction_errors.error_messages')
-  end
-
-  def validation_message(slug)
-    I18n.t(slug, scope: 'interaction_errors.validation_messages')
   end
 end
