@@ -15,4 +15,8 @@ class ConstantsDictionary
       end
     end
   end
+
+  def to_h
+    @all
+  end
 end

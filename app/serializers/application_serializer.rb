@@ -1,4 +1,8 @@
 class ApplicationSerializer
+  def self.preloads
+    []
+  end
+
   def self.render(item, **assigns)
     if assigns.any?
       new.render(item, **assigns)
