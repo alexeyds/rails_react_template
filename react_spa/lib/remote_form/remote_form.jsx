@@ -9,7 +9,7 @@ export default function RemoteForm({remote, children, ...props}) {
   return (
     <ClosestRemoteContext.Provider value={remote}>
       <Form {...props}>
-        {error && <div className="has-text-centered has-text-danger">{error}</div>}
+        {error && <div className="text-center text-danger mb-2">{error}</div>}
         {children}
       </Form>
     </ClosestRemoteContext.Provider>

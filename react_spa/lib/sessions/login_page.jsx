@@ -18,7 +18,7 @@ export default function LoginPage() {
       <div className="row mb-4">
         <div className="col">
           <div className="login-box shadow">
-            <h2 className="font-weight-bold mb-4">Rails-React Template</h2>
+            <h2 className="font-weight-bold mb-3 text-center">Rails-React Template</h2>
             <RemoteForm remote={remote} onSubmit={createSession} name='session'>
               <Field name='email'>
                 <div className="input-group">
@@ -48,7 +48,7 @@ export default function LoginPage() {
         </div>
       </div>
       <div className="row">
-        <div className="col">
+        <div className="col text-center">
           <a href="#" className="text-secondary">Forgot password?</a>
         </div>
       </div>

@@ -19,11 +19,10 @@ jutest("LoadingButton", s => {
 
   s.test("renders disabled button if remote is loading", t => {
     let container = render(
-      <LoadingButton remote={Remote.initialize().loading()} test-id='my-button' className='test'/>
+      <LoadingButton remote={Remote.initialize().loading()} test-id='my-button'/>
     );
 
     let button = container.getByTestId('my-button');
     t.equal(button.disabled, true);
-    t.equal(button.className, 'test is-loading');
   });
 });

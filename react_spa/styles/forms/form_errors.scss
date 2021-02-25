@@ -1,0 +1,12 @@
+@use "utils/colors" as c;
+
+.has-errors {
+  input {
+    border-color: c.$red;
+
+    &:focus {
+      border-color: c.$red;
+      box-shadow: 0 0 0 .2rem rgba(c.$red, .25);
+    }
+  }
+}

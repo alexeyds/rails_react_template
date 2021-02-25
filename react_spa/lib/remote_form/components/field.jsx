@@ -7,10 +7,10 @@ export default function Field({name, label, children}) {
   let error = fieldError(remote, name);
 
   return (
-    <div className="form-group">
+    <div className={`form-group ${error ? 'has-errors' : ''}`}>
       {label && <label className='label' name={name}>{label}</label>}
       {children}
-      {error && <span className="field-error">{error}</span>}
+      {error && <span className="mt-1 text-danger">{error}</span>}
     </div>
   );
 }
