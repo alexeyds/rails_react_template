@@ -12,14 +12,10 @@ export default function UserLayout({children, activeSidebarSection}) {
     return (
       <React.Fragment>
         <Navbar/>
-        <div className='container-fluid'>
-          <div className="columns is-gapless full-height-content">
-            <div className="column is-narrow sidebar">
-              <Sidebar activeSection={activeSidebarSection}/>
-            </div>
-            <div className="column">
-              {children}
-            </div>
+        <div className='viewport'>
+          <Sidebar activeSection={activeSidebarSection}/>
+          <div className='container-fluid'>
+            {children}
           </div>
         </div>
       </React.Fragment>

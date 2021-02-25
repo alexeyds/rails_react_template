@@ -15,18 +15,14 @@ function HelloWorldRequest() {
   let [remote, doRequest] = useRemote(resources.helloWorld.show);
   useEffect(() => doRequest(), [doRequest]);
 
-  return (
-    <div style={{textAlign: 'center'}}>
-      {remote.isSuccess && <ResponseDetails remote={remote}/>}
-    </div>
-  );
+  return remote.isSuccess && <ResponseDetails remote={remote}/>;
 }
 
 function ResponseDetails({remote}) {
   let responseBody = remote.response.body;
 
   return (
-    <div>
+    <div className='text-center'>
       <div>API version: <span>{responseBody.apiVersion}</span></div>
       <div>API locale: <span>{responseBody.locale}</span></div>
       <div>Details: <span>{responseBody.details}</span></div>

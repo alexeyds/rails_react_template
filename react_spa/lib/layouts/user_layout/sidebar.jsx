@@ -9,13 +9,13 @@ export let sidebarSections = {
 
 export default function Sidebar({activeSection}) {
   return (
-    <aside className="menu">
-      <ul className="menu-list">
+    <div className="sidebar-wrapper">
+      <div className="sidebar">
         {map(sidebarSections, (id, section) => (
           <SidebarSection key={id} id={id} section={section} activeSection={activeSection}/>
         ))}
-      </ul>
-    </aside>
+      </div>
+    </div>
   );
 }
 
@@ -23,12 +23,12 @@ function SidebarSection({id, section, activeSection}) {
   let className = section === activeSection ? 'is-active' : '';
 
   return (
-    <li test-id={`sidebar-section-${id}`} className={className}>
+    <div test-id={`sidebar-section-${id}`} className={`sidebar-item ${className}`}>
       <Link to={section.path}>
         <i className={`fas fa-${section.icon}`}/>
         <span>{section.name}</span>
       </Link>
-    </li>
+    </div>
   );
 }
 
