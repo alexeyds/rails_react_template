@@ -49,7 +49,7 @@ export default function LoginPage() {
       </div>
       <div className="row">
         <div className="col text-center">
-          <a href="#" className="text-secondary">Forgot password?</a>
+          <a className="text-secondary">Forgot password?</a>
         </div>
       </div>
     </GuestLayout>

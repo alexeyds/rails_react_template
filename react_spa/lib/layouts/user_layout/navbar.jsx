@@ -15,16 +15,16 @@ export default function Navbar() {
   }, [remote, clearSession]);
 
   return (
-    <nav className="navbar pr-5 is-dark">
-      <div className="navbar-brand">
-        <Link className="navbar-item" to={routes.rootPath()}>
-          <img src={logo}/>
-        </Link>
-      </div>
-
-      <div className="navbar-menu">
-        <div className="navbar-end">
-          <a className="navbar-item" test-id="logout-link" onClick={logout}>Logout</a>
+    <nav className="navbar navbar-dark bg-dark">
+      <Link to={routes.rootPath()} className="navbar-brand">
+        <img width='30' height='30' src={logo}/>
+      </Link>
+      <div className="justify-content-end">
+        <div className="navbar-nav">
+          <a className="navbar-item nav-link" test-id="logout-link" onClick={logout}>
+            <span className='mr-1'><i className="fas fa-sign-out-alt"/></span>
+            <span>Logout</span>
+          </a>
         </div>
       </div>
     </nav>

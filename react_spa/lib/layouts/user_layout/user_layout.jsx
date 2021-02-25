@@ -10,17 +10,19 @@ export default function UserLayout({children, activeSidebarSection}) {
 
   if (session) {
     return (
-      <div>
+      <React.Fragment>
         <Navbar/>
-        <div className="columns is-gapless full-height-content">
-          <div className="column is-narrow sidebar">
-            <Sidebar activeSection={activeSidebarSection}/>
-          </div>
-          <div className="column">
-            {children}
+        <div className='container-fluid'>
+          <div className="columns is-gapless full-height-content">
+            <div className="column is-narrow sidebar">
+              <Sidebar activeSection={activeSidebarSection}/>
+            </div>
+            <div className="column">
+              {children}
+            </div>
           </div>
         </div>
-      </div>
+      </React.Fragment>
     );
   } else {
     return <Redirect to={routes.loginPath()}/>;

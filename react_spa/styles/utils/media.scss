@@ -1,0 +1,13 @@
+@use "utils/bootstrap_utils" as b;
+
+@mixin desktop {
+  @include b.media-breakpoint-up("lg") {
+    @content;
+  }
+}
+
+@mixin touch {
+  @include b.media-breakpoint-down("lg") {
+    @content;
+  }
+}
