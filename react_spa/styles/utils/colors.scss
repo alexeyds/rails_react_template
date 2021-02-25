@@ -1,4 +1,4 @@
-@forward "bootstrap/scss/_variables.scss" show 
+@forward "utils/bootstrap_variables" show 
   $blue,
   $indigo,
   $purple,
@@ -8,4 +8,6 @@
   $yellow,
   $green,
   $teal,
-  $cyan;
+  $cyan,
+  $white,
+  $black;

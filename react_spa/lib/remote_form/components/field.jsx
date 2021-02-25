@@ -7,7 +7,7 @@ export default function Field({name, label, children}) {
   let error = fieldError(remote, name);
 
   return (
-    <div className={`field ${error ? 'has-errors' : ''}`}>
+    <div className="form-group">
       {label && <label className='label' name={name}>{label}</label>}
       {children}
       {error && <span className="field-error">{error}</span>}

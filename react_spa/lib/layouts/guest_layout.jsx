@@ -10,8 +10,14 @@ export default function GuestLayout({children}) {
     return <Redirect to={routes.rootPath()}/>;
   } else {  
     return (
-      <div className="guest-layout">
-        {children}
+      <div className="bg-light">
+        <div className="container">
+          <div className="row vh-100 align-items-center text-center justify-content-center">
+            <div className="col col-lg-5">
+              {children}
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

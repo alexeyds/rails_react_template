@@ -1,0 +1,8 @@
+@use "utils/colors" as c;
+
+.login-box {
+  padding: 1.25rem;
+  background-color: c.$white;
+  color: c.$black;
+  border-radius: 6px;
+}
