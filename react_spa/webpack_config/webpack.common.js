@@ -50,7 +50,7 @@ export default {
       },
 
       {
-        test: /\.(png|jpe?g|gif)$/i,
+        test: /\.(png|svg|jpe?g|gif)$/i,
         exclude: [/fonts/],
         use: [imagesLoader()],
       },
